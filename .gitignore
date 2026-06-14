@@ -1,0 +1,8 @@
+node_modules
+dist
+.DS_Store
+*.local
+.env
+
+# Configuración local de Claude Code (no compartir)
+.claude/settings.local.json
