@@ -5,4 +5,4 @@ dist
 .env
 
 # Configuración local de Claude Code (no compartir)
-.claude/settings.local.json
+.claude/
