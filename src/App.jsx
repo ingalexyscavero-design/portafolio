@@ -13,10 +13,10 @@ import {
 
 const DATOS = {
   nombre: "Alexys Cavero",
-  titulo: "Desarrollador Web Junior · Automatización e IA",
-  tituloLinea2: "Estudiante de Ingeniería de Sistemas",
+  titulo: "Analista de Sistemas · Automatización e IA",
+  tituloLinea2: "Transformación Digital · Estudiante de Ingeniería de Sistemas",
   descripcion:
-    "Construyo soluciones web modernas que resuelven problemas reales: plataformas para negocios, automatización con inteligencia artificial y aplicaciones que ya están en producción.",
+    "Entiendo el problema antes de la solución. Convierto necesidades reales de negocios y organizaciones en software a medida y procesos automatizados con inteligencia artificial, desde la idea hasta producción.",
   ubicacion: "Ica, Perú",
   disponible: "Disponible para oportunidades",
   email: "ing.alexyscavero@gmail.com",
@@ -44,7 +44,7 @@ const DATOS = {
 
   sobreMi: {
     intro:
-      "Me enfoco en construir software que la gente realmente usa. Junto a un compañero impulso Conecta Systems, una marca propia bajo la que desarrollamos sitios web, automatizaciones y software a medida para clientes y negocios locales, trabajando por temporadas según los proyectos. Esa experiencia, sumada a la universidad, me ha permitido llevar ideas reales hasta producción.",
+      "Me enfoco en entender problemas y traducirlos en soluciones que funcionan. Junto a un compañero impulso Conecta Systems, una marca propia bajo la que diseñamos software a medida y automatizamos procesos para clientes y negocios locales, trabajando por temporadas según los proyectos. Más que escribir código, me interesa el porqué detrás de cada sistema: qué problema resuelve y cómo mejora el trabajo de quien lo usa.",
     // Lado humano: por qué la carrera y qué me mueve
     motivacion:
       "Elegí Ingeniería de Sistemas porque me fascina convertir problemas reales en soluciones que funcionan. No me apasiona el código por el código: me apasiona ver cómo una idea bien construida le ahorra horas a un negocio, ordena el caos de alguien o acerca la tecnología a quien creía que no era para él.",
@@ -54,20 +54,20 @@ const DATOS = {
       "Primero pienso con calma y estrategia; después ejecuto con foco y precisión. Claridad antes de actuar, decisión al hacerlo.",
     puntos: [
       {
-        titulo: "Desarrollo web end-to-end",
-        texto: "Frontend con React, Vite y Tailwind; backend con Java Spring Boot, Node y Supabase. Despliegue continuo en Netlify.",
+        titulo: "Análisis y resolución de problemas",
+        texto: "Cada proyecto parte de una necesidad concreta: una ruta de ventas, una campaña, una academia. Primero entiendo el problema y el proceso; después diseño la solución.",
       },
       {
         titulo: "Automatización con IA",
-        texto: "Integro Claude, GPT y Gemini en flujos reales: generación automática de contenido, funciones programadas y asistentes para negocios.",
+        texto: "Integro Claude, GPT y Gemini en flujos reales: generación automática de contenido, tareas programadas y asistentes que ahorran horas de trabajo manual.",
       },
       {
-        titulo: "Resolución de problemas",
-        texto: "Cada proyecto parte de una necesidad concreta: una ruta de ventas, una campaña benéfica, una academia. Primero el problema, después el código.",
+        titulo: "Visión técnica de extremo a extremo",
+        texto: "Entiendo cómo se construye el software (React, Java, bases de datos, despliegue): eso me permite dialogar con equipos técnicos y traducir el negocio a soluciones viables.",
       },
       {
-        titulo: "Aprendizaje continuo",
-        texto: "Estudiante de Ingeniería de Sistemas (UTP) con práctica constante leyendo y escribiendo código de nivel producción.",
+        titulo: "Transformación digital",
+        texto: "Llevo procesos manuales a herramientas digitales: catálogos, registros, capacitación y reportes que antes vivían en papel o WhatsApp.",
       },
     ],
   },
@@ -1501,7 +1501,7 @@ function SobreMi({ t }) {
           t={t}
           num="01"
           eyebrow="Sobre mí"
-          titulo="Software con propósito, no proyectos de práctica"
+          titulo="El problema primero, la tecnología después"
         />
 
         <div className="grid lg:grid-cols-5 gap-8 lg:gap-10 items-stretch">
@@ -2584,10 +2584,10 @@ function Contacto({ t }) {
               className="max-w-2xl mx-auto mb-4"
               style={{ color: t.text, fontSize: "clamp(1.7rem, 3.6vw, 2.7rem)", lineHeight: 1.12, fontWeight: 700, letterSpacing: "-0.025em" }}
             >
-              ¿Buscas un desarrollador junior que ya entrega en producción?
+              ¿Buscas a alguien que entienda el problema antes de la solución?
             </h2>
             <p className="max-w-xl mx-auto leading-relaxed mb-9" style={{ color: t.muted, fontSize: "1.05rem" }}>
-              Estoy abierto a oportunidades de desarrollo web, automatización e IA. Respondo rápido y con gusto conversamos sobre cómo puedo aportar a tu equipo.
+              Estoy abierto a oportunidades en análisis de sistemas, automatización, transformación digital e IA, presenciales o remotas. Respondo rápido y con gusto conversamos sobre cómo puedo aportar a tu equipo.
             </p>
           </Reveal>
           <Reveal delay={100}>
