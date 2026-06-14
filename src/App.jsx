@@ -4,7 +4,11 @@ import {
   Menu, X, ChevronLeft, ChevronRight, ChevronDown, MapPin, CircleCheck, Layers, Database, Wrench,
   Sparkles, Monitor, Award, ExternalLink, FolderGit2, ArrowUp,
   Code2, Server, Settings2, BrainCircuit,
+  BarChart3, BookOpen, MessageSquare, Bot, Workflow,
 } from "lucide-react";
+
+// Iconos Lucide para marcas sin logo en Simple Icons (clave -> componente)
+const LUCIDE_TECH = { powerbi: BarChart3, gpt: MessageSquare, notebooklm: BookOpen, perplexity: Bot, n8n: Workflow };
 
 /* ============================================================
    DATOS DEL PORTAFOLIO — edita todo desde aquí.
@@ -125,7 +129,7 @@ const DATOS = {
         { nombre: "Git · GitHub", slug: "github", color: "E9EDF2", detalle: "Control de versiones y trabajo colaborativo." },
         { nombre: "Netlify", slug: "netlify", color: "00C7B7", detalle: "CI/CD, funciones serverless y Blobs en producción." },
         { nombre: "Docker", slug: "docker", color: "2496ED", detalle: "Entornos reproducibles para desarrollo y despliegue." },
-        { nombre: "Power BI", slug: "powerbi", color: "F2C811", detalle: "Dashboards y modelado estrella para inteligencia de negocio." },
+        { nombre: "Power BI", lucide: "powerbi", detalle: "Dashboards y modelado para inteligencia de negocio." },
       ],
     },
     {
@@ -134,10 +138,10 @@ const DATOS = {
       descripcion: "La IA como multiplicador, no como adorno.",
       items: [
         { nombre: "Claude", slug: "claude", color: "D97757", detalle: "Par de programación y motor de generación de documentos y código." },
-        { nombre: "GPT", slug: "openai", color: "FFFFFF", detalle: "Generación de contenido y razonamiento vía API en producción." },
+        { nombre: "GPT", lucide: "gpt", detalle: "Generación de contenido y razonamiento vía API." },
         { nombre: "Gemini", slug: "googlegemini", color: "8E75FF", detalle: "Pipelines de contenido automatizado y multimodal de Google." },
-        { nombre: "Perplexity", slug: "perplexity", color: "1FB8CD", detalle: "Investigación con fuentes citadas y búsqueda aumentada." },
-        { nombre: "NotebookLM", slug: "googlecolab", color: "F9AB00", detalle: "Investigación y síntesis de documentación técnica." },
+        { nombre: "Perplexity", lucide: "perplexity", detalle: "Investigación con fuentes citadas y búsqueda aumentada." },
+        { nombre: "NotebookLM", lucide: "notebooklm", detalle: "Investigación y síntesis de documentación técnica." },
         { nombre: "n8n", slug: "n8n", color: "EA4B71", detalle: "Orquestación de flujos sin reinventar integraciones." },
       ],
     },
@@ -388,42 +392,42 @@ const DATOS = {
     {
       id: "aiverse-os",
       codigo: "PRJ-05",
-      categoria: "personal",
-      nombre: "AIVERSE OS",
-      corto: "Dashboard personal con IA: noticias generadas automáticamente con Gemini, funciones programadas y reportes PDF.",
-      problema: "Mantenerse al día en tecnología exigía revisar decenas de fuentes manualmente cada día.",
-      resultado: "Sistema autónomo en producción: cada mañana genera y almacena un resumen de noticias sin intervención.",
-      stack: ["React", "Netlify Functions", "Gemini API", "Netlify Blobs"],
+      categoria: "divulgacion",
+      nombre: "AIVERSE OS · Mi sistema con IA",
+      corto: "Espacio donde comparto mi forma de trabajar con la IA: mi flujo, mis herramientas y cómo las combino en el día a día.",
+      problema: "Mucha gente usa IA suelta; pocos tienen un flujo de trabajo real y ordenado para sacarle provecho de verdad.",
+      resultado: "Una web personal que muestra mi metodología con IA + un pipeline que me envía noticias a Telegram, filtradas a mi criterio.",
+      stack: ["React", "APIs de IA", "Automatización", "Telegram"],
       gradiente: ["#312E81", "#6D28D9"],
-      imagen: "https://images.unsplash.com/photo-1639762681485-074b7f938ba0?auto=format&fit=crop&w=900&q=80", // IA / dashboard (oscuro). ← reemplazar con captura real del proyecto
+      imagen: "https://images.unsplash.com/photo-1639762681485-074b7f938ba0?auto=format&fit=crop&w=900&q=80", // IA / flujo de trabajo (oscuro). ← reemplazar con captura real del proyecto
       detalle: {
         resumen:
-          "Sistema operativo personal en el navegador: un dashboard que centraliza noticias tecnológicas generadas por IA, documentos descargables y herramientas propias. El módulo central es un pipeline autónomo de noticias con Gemini.",
+          "AIVERSE OS es mi espacio personal para mostrar cómo trabajo con la Inteligencia Artificial: el flujo, las herramientas y la forma en que las combino. Es a la vez una vitrina de mi metodología y un sistema real de automatización que uso a diario. (En actualización constante.)",
         problemaLargo:
-          "Quería un resumen diario de noticias tecnológicas relevantes sin pagar suscripciones ni revisar fuentes a mano, y que el sistema funcionara solo, incluso sin abrir la aplicación.",
+          "La IA está al alcance de todos, pero la mayoría la usa de forma desordenada. Yo quería documentar y compartir un flujo de trabajo propio y replicable: qué herramienta uso para qué, cómo las encadeno y cómo automatizo lo repetitivo, para que otros puedan aprender de mi método.",
         solucion:
-          "Una Netlify Function programada (cron) invoca la API de Gemini cada mañana, genera el resumen del día y lo persiste en Netlify Blobs. El frontend solo lee contenido ya generado: carga instantánea y costo de API mínimo.",
+          "Construí una web donde explico mi flujo de trabajo con IA paso a paso, y le sumé un sistema de automatización: en lugar de revisar noticias de tecnología a mano, conecté Gemini + búsqueda y otras APIs para que cada mañana y noche me lleguen a mi Telegram las noticias filtradas según mis intereses y mi propio algoritmo.",
         arquitectura:
-          "Tres capas desacopladas: frontend React (lectura), funciones serverless programadas (generación) y Netlify Blobs (almacenamiento). El frontend nunca llama a la IA directamente.",
+          "Frontend en React para la parte de divulgación, y un flujo de automatización que orquesta APIs de IA (Gemini, búsqueda) con entrega programada vía bot de Telegram. La información llega a mí, ya no tengo que ir a buscarla.",
         stackDetalle: {
-          frontend: ["React + Vite — dashboard modular por widgets", "Tailwind CSS — tema oscuro tipo sistema operativo"],
-          backend: ["Netlify Functions — generación programada sin servidor propio", "Scheduled Functions (cron) — ejecución diaria autónoma"],
-          baseDatos: ["Netlify Blobs — almacenamiento clave-valor de los resúmenes generados"],
-          herramientas: ["Netlify — plataforma única para todo el ciclo", "GitHub — despliegue continuo"],
-          ia: ["Gemini API — generación del contenido de noticias", "Claude — diseño de la arquitectura del pipeline"],
+          frontend: ["React + Vite — la vitrina de mi flujo de trabajo", "Tailwind CSS — tema oscuro tipo sistema operativo"],
+          backend: ["Automatización programada — ejecución en horarios definidos (mañana y noche)"],
+          baseDatos: ["No requiere: la información se entrega y consume al instante"],
+          herramientas: ["Bot de Telegram — recibo las noticias filtradas en mi celular", "APIs de búsqueda — alimentan el flujo de noticias"],
+          ia: ["Gemini API — filtra y resume las noticias a mi criterio", "Claude — diseño del flujo de trabajo y la metodología"],
         },
         decisiones: [
           {
-            titulo: "Generación programada, no bajo demanda",
-            texto: "Llamar a la IA en cada visita sería lento y caro. Generar una vez al día y servir desde Blobs da latencia de milisegundos y costo casi cero.",
+            titulo: "La info viene a mí, no yo a la info",
+            texto: "En vez de abrir una web a revisar noticias, automaticé la entrega a Telegram en mis horarios. La tecnología se adapta a mi rutina, no al revés.",
           },
           {
-            titulo: "Desacoplar lectura de generación",
-            texto: "Si la API de Gemini falla, el dashboard sigue mostrando el último contenido válido: el fallo de un proveedor externo no rompe la experiencia.",
+            titulo: "Compartir el método, no solo el resultado",
+            texto: "El valor no es 'uso IA', sino mostrar CÓMO la uso: un flujo ordenado que otros pueden entender y replicar.",
           },
         ],
         impacto:
-          "Un sistema de información personal totalmente autónomo, y el aprendizaje práctico de arquitecturas serverless con jobs programados, aplicable directamente a proyectos de clientes.",
+          "Un espacio que combina divulgación (enseño mi forma de trabajar con IA) y automatización real (un asistente de noticias que trabaja para mí). Refleja cómo entiendo la IA: como una herramienta de trabajo con método, no como una moda.",
         demo: "#",
         repo: "#",
       },
@@ -560,7 +564,7 @@ const DATOS = {
     {
       id: "kidsapiens",
       codigo: "PRJ-09",
-      categoria: "divulgacion",
+      categoria: "personal",
       nombre: "Kidsapiens · IA para niños",
       corto: "Taller propio de Inteligencia Artificial para niños de primaria (2023), más charlas y exposiciones de IA en colegios de Ica.",
       problema: "En 2023, con la IA recién explotando, casi nadie la acercaba a los niños ni la explicaba de forma sencilla en Ica.",
@@ -736,9 +740,21 @@ function Foto({ src, alt = "", gradiente = ["#121823", "#1A2330"], className = "
 
 /* Logo real de cada tecnología (Simple Icons CDN).
    Si el logo no existe o no carga, muestra una insignia con la inicial. */
-function IconoTech({ t, slug, color, nombre, tam = 22 }) {
+function IconoTech({ t, slug, color, nombre, tam = 22, lucide: IconoLucide }) {
   const [falla, setFalla] = useState(false);
   const caja = tam + 14;
+  // Icono Lucide directo (para marcas sin logo en Simple Icons: GPT, Power BI, NotebookLM…)
+  if (IconoLucide) {
+    return (
+      <span
+        className="flex items-center justify-center rounded-lg shrink-0"
+        style={{ width: caja, height: caja, background: t.surface2, border: `1px solid ${t.borderSoft}`, color: t.accent2Text }}
+        aria-hidden
+      >
+        <IconoLucide size={tam} />
+      </span>
+    );
+  }
   if (!slug || falla) {
     return (
       <span
@@ -1008,7 +1024,7 @@ function Marquesina({ t }) {
               className="flex items-center gap-2.5 shrink-0 px-4 py-2 rounded-xl"
               style={{ background: "rgba(7,9,13,0.5)", border: `1px solid ${t.borderSoft}` }}
             >
-              <IconoTech t={t} slug={item.slug} color={item.color} nombre={item.nombre} tam={16} />
+              <IconoTech t={t} slug={item.slug} color={item.color} nombre={item.nombre} lucide={LUCIDE_TECH[item.lucide]} tam={16} />
               <span style={{ fontFamily: MONO, fontSize: 12.5, color: t.text, fontWeight: 500, whiteSpace: "nowrap" }}>{item.nombre}</span>
             </span>
           ))}
@@ -1652,10 +1668,14 @@ function TarjetaCategoria({ t, cat, abierta, onToggle, delay }) {
           className="w-full text-left p-5 flex items-center gap-4 transition-colors duration-200"
         >
           <span
-            className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 transition-transform duration-300"
-            style={{ background: t.accentSoft, color: t.accentText, transform: abierta ? "scale(1.05)" : "none" }}
+            className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 transition-all duration-300"
+            style={{
+              background: abierta ? "rgba(34,211,238,0.10)" : "rgba(255,255,255,0.04)",
+              color: abierta ? t.accent2Text : t.muted,
+              border: `1px solid ${abierta ? t.accent2Soft : t.borderSoft}`,
+            }}
           >
-            <Icono size={18} />
+            <Icono size={18} strokeWidth={1.8} />
           </span>
           <div className="min-w-0 flex-1">
             <div className="flex items-center gap-2">
@@ -1667,7 +1687,7 @@ function TarjetaCategoria({ t, cat, abierta, onToggle, delay }) {
           {/* Logos en miniatura (solo cuando está cerrada) */}
           <div className={`hidden sm:flex items-center gap-1 transition-all duration-300 ${abierta ? "opacity-0 w-0 overflow-hidden" : "opacity-100"}`}>
             {cat.items.slice(0, 5).map((item) => (
-              <IconoTech key={item.nombre} t={t} slug={item.slug} color={item.color} nombre={item.nombre} tam={14} />
+              <IconoTech key={item.nombre} t={t} slug={item.slug} color={item.color} nombre={item.nombre} lucide={LUCIDE_TECH[item.lucide]} tam={14} />
             ))}
           </div>
           {/* Flecha indicadora */}
@@ -1688,7 +1708,7 @@ function TarjetaCategoria({ t, cat, abierta, onToggle, delay }) {
             <div className="px-5 pb-5 pt-1 grid sm:grid-cols-2 gap-x-6 gap-y-4" style={{ borderTop: `1px solid ${t.borderSoft}` }}>
               {cat.items.map((item) => (
                 <div key={item.nombre} className="flex items-start gap-3 pt-1">
-                  <IconoTech t={t} slug={item.slug} color={item.color} nombre={item.nombre} />
+                  <IconoTech t={t} slug={item.slug} color={item.color} nombre={item.nombre} lucide={LUCIDE_TECH[item.lucide]} />
                   <div className="min-w-0">
                     <div className="font-medium text-sm" style={{ color: t.text }}>{item.nombre}</div>
                     <div className="text-sm leading-snug" style={{ color: t.muted }}>{item.detalle}</div>
@@ -1816,22 +1836,29 @@ function Certificados({ t }) {
                 key={c.codigo}
                 type="button"
                 onClick={() => setActivo(c)}
-                className="tarjeta-certificado group w-64 shrink-0 text-left rounded-2xl overflow-hidden transition-all duration-300 hover:-translate-y-1"
+                className="tarjeta-certificado group w-72 shrink-0 text-left rounded-2xl overflow-hidden transition-all duration-300 hover:-translate-y-1 flex flex-col"
                 style={{ background: t.card, border: `1px solid ${t.borderSoft}`, scrollSnapAlign: "start" }}
               >
-                <Foto src={c.imagen} alt={c.nombre} gradiente={["#121823", "#2A1F10"]} className="h-32" style={{ borderBottom: `1px solid ${t.borderSoft}` }}>
-                  <div className="absolute inset-0" style={{ background: "linear-gradient(transparent 30%, rgba(0,0,0,0.55))" }} />
-                  <div className="absolute bottom-2 left-3 flex items-center gap-2">
-                    <Award size={15} style={{ color: t.accentText }} />
-                    <span style={{ fontFamily: MONO, fontSize: 10, letterSpacing: "0.12em", color: "rgba(255,255,255,0.92)" }}>{c.codigo}</span>
+                <Foto src={c.imagen} alt={c.nombre} gradiente={["#121823", "#2A1F10"]} className="h-36" style={{ borderBottom: `1px solid ${t.borderSoft}` }}>
+                  <div className="absolute inset-0" style={{ background: "linear-gradient(transparent 30%, rgba(7,9,13,0.7))" }} />
+                  <div className="absolute top-2.5 left-2.5 flex items-center gap-1.5 px-2 py-1 rounded-md" style={{ background: "rgba(7,9,13,0.6)", backdropFilter: "blur(4px)" }}>
+                    <Award size={13} style={{ color: t.accentText }} />
+                    <span style={{ fontFamily: MONO, fontSize: 9.5, letterSpacing: "0.12em", color: "rgba(255,255,255,0.92)" }}>{c.codigo}</span>
                   </div>
+                  <span className="absolute bottom-2.5 right-2.5 px-2 py-0.5 rounded-md" style={{ fontFamily: MONO, fontSize: 10, color: t.accent2Text, background: "rgba(7,9,13,0.6)", backdropFilter: "blur(4px)" }}>{c.fecha}</span>
                 </Foto>
-                <div className="p-4">
+                <div className="p-4 flex flex-col flex-1">
                   <h3 className="font-semibold text-sm mb-1 leading-snug" style={{ color: t.text }}>{c.nombre}</h3>
-                  <p style={{ fontFamily: MONO, fontSize: 11, color: t.faint }} className="mb-2">
-                    {c.institucion} · {c.fecha}
-                  </p>
-                  <span className="text-xs font-medium inline-flex items-center gap-1 transition-transform duration-200 group-hover:translate-x-0.5" style={{ color: t.accentText }}>
+                  <p style={{ fontFamily: MONO, fontSize: 10.5, color: t.faint }} className="mb-3">{c.institucion}</p>
+                  {c.temas && (
+                    <p className="text-xs leading-snug mb-3" style={{ color: t.muted }}>{c.temas}</p>
+                  )}
+                  {c.sector && (
+                    <span className="inline-block self-start text-xs px-2 py-1 rounded-md mb-3" style={{ fontFamily: MONO, fontSize: 9.5, color: t.accentText, background: t.accentSoft }}>
+                      {c.sector}
+                    </span>
+                  )}
+                  <span className="mt-auto text-xs font-semibold inline-flex items-center gap-1 transition-transform duration-200 group-hover:translate-x-0.5" style={{ color: t.accentText }}>
                     Ver detalle <ArrowUpRight size={12} />
                   </span>
                 </div>
@@ -2588,7 +2615,33 @@ function Contacto({ t }) {
             }}
           />
           <Reveal>
-            <div className="inline-flex items-center gap-2.5 mb-5">
+            {/* Avatar animado que "espera" — detalle con carácter */}
+            <div className="relative inline-block mb-6">
+              <div
+                className="avatar-saluda relative w-20 h-20 mx-auto rounded-2xl flex items-center justify-center"
+                style={{ background: `linear-gradient(140deg, ${t.surface2}, ${t.surface})`, border: `1px solid ${t.border}`, boxShadow: t.shadowMd }}
+              >
+                {/* carita */}
+                <div className="relative" style={{ width: 44, height: 44 }}>
+                  {/* ojos */}
+                  <span className="ojo-parpadea absolute rounded-full" style={{ width: 6, height: 6, background: t.accent2Text, left: 8, top: 16 }} />
+                  <span className="ojo-parpadea absolute rounded-full" style={{ width: 6, height: 6, background: t.accent2Text, right: 8, top: 16 }} />
+                  {/* sonrisa */}
+                  <span className="absolute" style={{ left: 12, right: 12, bottom: 9, height: 8, borderBottom: `2.5px solid ${t.accentText}`, borderRadius: "0 0 12px 12px" }} />
+                </div>
+                {/* manita que saluda */}
+                <span className="manita-saluda absolute" style={{ right: -6, top: -8, fontSize: 22 }}>👋</span>
+                {/* punto "en línea" */}
+                <span className="absolute" style={{ bottom: -4, right: -4 }}>
+                  <span className="relative flex w-3.5 h-3.5">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full opacity-60" style={{ background: t.ok }} />
+                    <span className="relative inline-flex rounded-full w-3.5 h-3.5" style={{ background: t.ok, border: `2px solid ${t.surface}` }} />
+                  </span>
+                </span>
+              </div>
+            </div>
+
+            <div className="flex items-center justify-center gap-2.5 mb-5">
               <span style={{ fontFamily: MONO, fontSize: 12, fontWeight: 500, color: t.accentText, letterSpacing: "0.08em" }}>06</span>
               <span className="h-px w-6" style={{ background: t.accentText, opacity: 0.6 }} />
               <span style={{ fontFamily: MONO, fontSize: 11, letterSpacing: "0.2em", color: t.accent2Text }}>CONTACTO</span>
@@ -2740,6 +2793,13 @@ export default function App() {
         .palabra { display: inline-block; animation: aparecerPalabra 0.7s cubic-bezier(0.22, 1, 0.36, 1) both; }
         @keyframes seccionEntra { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
         .seccion-entra { animation: seccionEntra 0.45s cubic-bezier(0.22, 1, 0.36, 1) both; }
+        /* Avatar que espera en Contacto */
+        @keyframes flotarAvatar { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-7px); } }
+        @keyframes parpadeo { 0%,92%,100% { transform: scaleY(1); } 96% { transform: scaleY(0.1); } }
+        @keyframes saludar { 0%,60%,100% { transform: rotate(0deg); } 70% { transform: rotate(18deg); } 80% { transform: rotate(-8deg); } 90% { transform: rotate(14deg); } }
+        .avatar-saluda { animation: flotarAvatar 4s ease-in-out infinite; }
+        .ojo-parpadea { animation: parpadeo 4s ease-in-out infinite; transform-origin: center; }
+        .manita-saluda { animation: saludar 3s ease-in-out infinite; transform-origin: bottom left; }
         .modal-entrada { animation: modalEntrada 0.3s cubic-bezier(0.22, 1, 0.36, 1) both; }
         .marquesina:hover .pista { animation-play-state: paused; }
         .btn-brillo { position: relative; overflow: hidden; }
@@ -2761,9 +2821,8 @@ export default function App() {
         .tarjeta-proyecto:active { transform: scale(0.99); }
         .tarjeta-certificado:hover { border-color: ${t.accent2} !important; box-shadow: ${t.shadowMd}; }
         .tarjeta-certificado:active { transform: translateY(0) scale(0.98); }
-        .foto-galeria { transition: transform 0.35s cubic-bezier(0.22,1,0.36,1), box-shadow 0.35s ease; transform-origin: center top; }
+        .foto-galeria { transition: transform 0.35s cubic-bezier(0.22,1,0.36,1), box-shadow 0.35s ease; transform-origin: center center; }
         .foto-galeria:hover { transform: rotate(0deg) scale(1.04) !important; box-shadow: ${t.shadowLg}; z-index: 5; }
-        .foto-galeria:active { transform: rotate(0deg) scale(1.01) !important; }
         .zoomable img { transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1); }
         .group:hover .zoomable img, .zoomable:hover img { transform: scale(1.07); }
         .foco { background: radial-gradient(380px circle at var(--mx, 50%) var(--my, 50%), ${t.accentSoft}, transparent 65%); }
