@@ -13,10 +13,10 @@ import {
 
 const DATOS = {
   nombre: "Alexys Cavero",
-  titulo: "Analista de Sistemas · Automatización e IA",
-  tituloLinea2: "Transformación Digital · Estudiante de Ingeniería de Sistemas",
+  titulo: "Desarrollador Web Junior · Frontend",
+  tituloLinea2: "Automatización e IA · Estudiante de Ingeniería de Sistemas",
   descripcion:
-    "Entiendo el problema antes de la solución. Convierto necesidades reales de negocios y organizaciones en software a medida y procesos automatizados con inteligencia artificial, desde la idea hasta producción.",
+    "Diseño y construyo sitios y aplicaciones web modernas, rápidas y a medida. Me enfoco en el frontend y la experiencia de usuario, y complemento con automatización de procesos e IA para entregar soluciones completas, listas para producción.",
   ubicacion: "Ica, Perú",
   disponible: "Disponible para oportunidades",
   email: "ing.alexyscavero@gmail.com",
@@ -44,7 +44,7 @@ const DATOS = {
 
   sobreMi: {
     intro:
-      "Me enfoco en entender problemas y traducirlos en soluciones que funcionan. Junto a un compañero impulso Conecta Systems, una marca propia bajo la que diseñamos software a medida y automatizamos procesos para clientes y negocios locales, trabajando por temporadas según los proyectos. Más que escribir código, me interesa el porqué detrás de cada sistema: qué problema resuelve y cómo mejora el trabajo de quien lo usa.",
+      "Me especializo en desarrollo web frontend: construyo sitios y aplicaciones con React, rápidas, responsive y cuidadas en el detalle visual. Junto a un compañero impulso Conecta Systems, una marca propia bajo la que entregamos webs a medida y automatizamos procesos para clientes y negocios locales, trabajando por temporadas según los proyectos. Me importa tanto que el producto funcione como que se vea y se sienta bien para quien lo usa.",
     // Lado humano: por qué la carrera y qué me mueve
     motivacion:
       "Elegí Ingeniería de Sistemas porque me fascina convertir problemas reales en soluciones que funcionan. No me apasiona el código por el código: me apasiona ver cómo una idea bien construida le ahorra horas a un negocio, ordena el caos de alguien o acerca la tecnología a quien creía que no era para él.",
@@ -54,20 +54,20 @@ const DATOS = {
       "Primero pienso con calma y estrategia; después ejecuto con foco y precisión. Claridad antes de actuar, decisión al hacerlo.",
     puntos: [
       {
-        titulo: "Análisis y resolución de problemas",
-        texto: "Cada proyecto parte de una necesidad concreta: una ruta de ventas, una campaña, una academia. Primero entiendo el problema y el proceso; después diseño la solución.",
+        titulo: "Desarrollo web frontend",
+        texto: "Interfaces modernas con React, Vite y Tailwind: rápidas, responsive y con foco en la experiencia de usuario. Es donde más disfruto y donde mejor trabajo.",
+      },
+      {
+        titulo: "Diseño y experiencia de usuario",
+        texto: "Cuido la estética, la jerarquía visual y los detalles. Una web no solo debe funcionar: debe verse profesional y sentirse fácil de usar.",
       },
       {
         titulo: "Automatización con IA",
-        texto: "Integro Claude, GPT y Gemini en flujos reales: generación automática de contenido, tareas programadas y asistentes que ahorran horas de trabajo manual.",
+        texto: "Integro Claude, GPT y Gemini en flujos reales: generación de contenido, tareas programadas y asistentes que ahorran horas de trabajo manual. Mi valor agregado.",
       },
       {
-        titulo: "Visión técnica de extremo a extremo",
-        texto: "Entiendo cómo se construye el software (React, Java, bases de datos, despliegue): eso me permite dialogar con equipos técnicos y traducir el negocio a soluciones viables.",
-      },
-      {
-        titulo: "Transformación digital",
-        texto: "Llevo procesos manuales a herramientas digitales: catálogos, registros, capacitación y reportes que antes vivían en papel o WhatsApp.",
+        titulo: "Del problema a la solución",
+        texto: "Cada proyecto parte de una necesidad concreta. Primero entiendo qué se necesita; después diseño y construyo la web que lo resuelve, lista para producción.",
       },
     ],
   },
@@ -85,13 +85,13 @@ const DATOS = {
       ],
     },
     {
-      categoria: "Backend",
+      categoria: "Backend (de apoyo)",
       icono: "layers",
-      descripcion: "APIs y lógica de negocio sólidas.",
+      descripcion: "Lo suficiente para conectar mis webs de punta a punta.",
       items: [
-        { nombre: "Java · Spring Boot", slug: "spring", color: "6DB33F", detalle: "Microservicios y lógica empresarial en entorno financiero real." },
         { nombre: "Node.js", slug: "nodedotjs", color: "5FA04E", detalle: "Funciones serverless y automatizaciones programadas." },
-        { nombre: "APIs REST", slug: "", color: "", detalle: "Diseño de contratos claros entre frontend y backend." },
+        { nombre: "APIs REST", slug: "", color: "", detalle: "Consumo e integración de APIs en mis aplicaciones web." },
+        { nombre: "Java · Spring Boot", slug: "spring", color: "6DB33F", detalle: "Bases del backend empresarial vistas en la universidad." },
       ],
     },
     {
@@ -1501,7 +1501,7 @@ function SobreMi({ t }) {
           t={t}
           num="01"
           eyebrow="Sobre mí"
-          titulo="El problema primero, la tecnología después"
+          titulo="Construyo webs que funcionan y se ven bien"
         />
 
         <div className="grid lg:grid-cols-5 gap-8 lg:gap-10 items-stretch">
@@ -2584,10 +2584,10 @@ function Contacto({ t }) {
               className="max-w-2xl mx-auto mb-4"
               style={{ color: t.text, fontSize: "clamp(1.7rem, 3.6vw, 2.7rem)", lineHeight: 1.12, fontWeight: 700, letterSpacing: "-0.025em" }}
             >
-              ¿Buscas a alguien que entienda el problema antes de la solución?
+              ¿Buscas un desarrollador web que cuide cada detalle?
             </h2>
             <p className="max-w-xl mx-auto leading-relaxed mb-9" style={{ color: t.muted, fontSize: "1.05rem" }}>
-              Estoy abierto a oportunidades en análisis de sistemas, automatización, transformación digital e IA, presenciales o remotas. Respondo rápido y con gusto conversamos sobre cómo puedo aportar a tu equipo.
+              Estoy abierto a oportunidades como desarrollador web / frontend, presenciales o remotas. También sumo automatización e IA cuando el proyecto lo necesita. Respondo rápido y con gusto conversamos sobre cómo puedo aportar a tu equipo.
             </p>
           </Reveal>
           <Reveal delay={100}>
