@@ -3,6 +3,7 @@ import {
   Github, Linkedin, Mail, Download, ArrowRight, ArrowLeft, ArrowUpRight,
   Menu, X, ChevronLeft, ChevronRight, ChevronDown, MapPin, CircleCheck, Layers, Database, Wrench,
   Sparkles, Monitor, Award, ExternalLink, FolderGit2, ArrowUp,
+  Code2, Server, Settings2, BrainCircuit,
 } from "lucide-react";
 
 /* ============================================================
@@ -50,7 +51,7 @@ const DATOS = {
     // Frase/mentalidad personal
     lema: "Planifica como Monje, ejecuta como Ninja",
     lemaTexto:
-      "Pensar con calma, profundidad y estrategia antes de actuar —como un monje—; y luego ejecutar con foco, velocidad y precisión —como un ninja—. Esa es mi forma de trabajar: claridad primero, acción decidida después.",
+      "Primero pienso con calma y estrategia; después ejecuto con foco y precisión. Claridad antes de actuar, decisión al hacerlo.",
     puntos: [
       {
         titulo: "Desarrollo web end-to-end",
@@ -1483,43 +1484,6 @@ function Hero({ t, irASeccion }) {
         </div>
       </div>
 
-      {/* Accesos rápidos a las secciones (navegación tipo app) */}
-      <Reveal delay={120}>
-        <div className="relative max-w-5xl mx-auto mt-10">
-          <p className="mb-4" style={{ fontFamily: MONO, fontSize: 10.5, letterSpacing: "0.18em", color: t.faint, textTransform: "uppercase" }}>
-            Explora
-          </p>
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
-            {[
-              { id: "sobre-mi", label: "Sobre mí", Icono: CircleCheck },
-              { id: "tecnologias", label: "Stack", Icono: Layers },
-              { id: "certificados", label: "Certificados", Icono: Award },
-              { id: "proyectos", label: "Proyectos", Icono: FolderGit2 },
-              { id: "galeria", label: "Momentos", Icono: Sparkles },
-              { id: "contacto", label: "Contacto", Icono: Mail },
-            ].map(({ id, label, Icono }, i) => (
-              <button
-                key={id}
-                type="button"
-                onClick={() => irASeccion(id)}
-                className="tarjeta-suave group flex flex-col items-start gap-3 p-4 rounded-2xl text-left"
-                style={{ background: t.card, border: `1px solid ${t.borderSoft}` }}
-              >
-                <span
-                  className="w-9 h-9 rounded-xl flex items-center justify-center transition-transform duration-300 group-hover:scale-110"
-                  style={{ background: i % 2 ? t.accent2Soft : t.accentSoft, color: i % 2 ? t.accent2Text : t.accentText }}
-                >
-                  <Icono size={16} />
-                </span>
-                <span className="flex items-center gap-1 text-sm font-medium" style={{ color: t.text }}>
-                  {label}
-                  <ArrowUpRight size={13} style={{ color: t.faint }} className="transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-                </span>
-              </button>
-            ))}
-          </div>
-        </div>
-      </Reveal>
     </section>
   );
 }
@@ -1651,7 +1615,7 @@ function SobreMi({ t }) {
    TECNOLOGÍAS — logos reales con nombre y propósito
    ============================================================ */
 
-const ICONOS_CAT = { monitor: Monitor, layers: Layers, database: Database, wrench: Wrench, sparkles: Sparkles };
+const ICONOS_CAT = { monitor: Code2, layers: Server, database: Database, wrench: Settings2, sparkles: BrainCircuit };
 
 // Tarjeta de categoría colapsable (acordeón). Cerrada: muestra logos en fila.
 // Abierta: muestra el detalle de cada tecnología.
@@ -1868,7 +1832,7 @@ function Certificados({ t }) {
       {activo && (
         <div
           className="fixed inset-0 flex items-center justify-center p-5"
-          style={{ zIndex: 60, background: "rgba(0,0,0,0.65)", backdropFilter: "blur(4px)" }}
+          style={{ zIndex: 90, background: "rgba(0,0,0,0.65)", backdropFilter: "blur(4px)" }}
           onClick={() => setActivo(null)}
         >
           <div
@@ -2125,26 +2089,44 @@ function Proyectos({ t, abrir }) {
 
         {/* Carrusel horizontal con filtros: escala sin alargar la página */}
         <Reveal>
-          <div
-            key={filtro}
-            ref={pista}
-            className="sin-scroll flex gap-5 overflow-x-auto pb-3 -mx-1 px-1"
-            style={{ scrollSnapType: "x mandatory" }}
-          >
-            {lista.map((p, i) => (
+          <div className="relative">
+            <div
+              key={filtro}
+              ref={pista}
+              className="sin-scroll flex gap-5 overflow-x-auto pb-3 -mx-1 px-1"
+              style={{ scrollSnapType: "x mandatory" }}
+            >
+              {lista.map((p, i) => (
+                <div
+                  key={p.id}
+                  className="shrink-0 w-[78vw] xs:w-[300px] sm:w-[340px]"
+                  style={{ scrollSnapAlign: "start", maxWidth: 340 }}
+                >
+                  <TarjetaProyecto t={t} p={p} abrir={abrir} delay={Math.min(i, 4) * 70} />
+                </div>
+              ))}
+            </div>
+            {/* Desvanecido derecho: insinúa que hay más (solo si hay más de 1) */}
+            {lista.length > 1 && (
               <div
-                key={p.id}
-                className="shrink-0 w-[290px] sm:w-[340px]"
-                style={{ scrollSnapAlign: "start" }}
-              >
-                <TarjetaProyecto t={t} p={p} abrir={abrir} delay={Math.min(i, 4) * 70} />
-              </div>
-            ))}
+                aria-hidden
+                className="absolute top-0 right-0 bottom-3 w-16 pointer-events-none hidden sm:block"
+                style={{ background: `linear-gradient(90deg, transparent, ${t.bg})` }}
+              />
+            )}
           </div>
         </Reveal>
-        <p className="sm:hidden mt-3" style={{ fontFamily: MONO, fontSize: 10.5, letterSpacing: "0.1em", color: t.faint }}>
-          ← DESLIZA PARA VER MÁS →
-        </p>
+
+        {/* Indicador claro de "desliza" — visible y con conteo */}
+        {lista.length > 1 && (
+          <div className="flex items-center gap-2.5 mt-4">
+            <span className="flex-1 h-px" style={{ background: t.borderSoft }} />
+            <span className="inline-flex items-center gap-1.5" style={{ fontFamily: MONO, fontSize: 10.5, letterSpacing: "0.12em", color: t.accent2Text }}>
+              <ChevronLeft size={13} /> DESLIZA · {lista.length} PROYECTOS <ChevronRight size={13} />
+            </span>
+            <span className="flex-1 h-px" style={{ background: t.borderSoft }} />
+          </div>
+        )}
       </div>
     </section>
   );
@@ -2493,7 +2475,7 @@ function Galeria({ t }) {
       {activa && (
         <div
           className="fixed inset-0 flex items-center justify-center p-5"
-          style={{ zIndex: 60, background: "rgba(0,0,0,0.8)", backdropFilter: "blur(6px)" }}
+          style={{ zIndex: 90, background: "rgba(0,0,0,0.8)", backdropFilter: "blur(6px)" }}
           onClick={() => setActiva(null)}
         >
           <div
@@ -2628,9 +2610,9 @@ function Contacto({ t }) {
                   >
                     <c.icono size={16} />
                   </span>
-                  <span>
+                  <span className="min-w-0">
                     <span className="block text-xs" style={{ fontFamily: MONO, color: t.faint }}>{c.etiqueta}</span>
-                    <span className="block text-sm font-medium" style={{ color: t.text }}>{c.valor}</span>
+                    <span className="block text-sm font-medium" style={{ color: t.text, wordBreak: "break-word" }}>{c.valor}</span>
                   </span>
                 </a>
               ))}
