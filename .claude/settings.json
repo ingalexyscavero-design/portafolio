@@ -16,7 +16,9 @@
       "Bash(git init *)",
       "Bash(git add *)",
       "Bash(git rm *)",
-      "Bash(git config *)"
+      "Bash(git config *)",
+      "Bash(git commit -q -m 'Portafolio profesional de Alexys Cavero *)",
+      "Bash(git commit -q -m 'Mejora textos de Sobre mi, experiencia como chips y ajustes responsive *)"
     ],
     "additionalDirectories": [
       "c:\\Users\\USUARIO\\.claude\\projects\\c--Users-USUARIO-Desktop-2026-1--TRABAJOS-ALEXYS---Trabajo-PROFESIONAL-6--Portafolio-WEb---PORTAFOLIO-PROFESIONAL-V-04---Claude---Antigravity---120626-portafolio\\memory"

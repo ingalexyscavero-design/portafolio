@@ -43,7 +43,7 @@ const DATOS = {
 
   sobreMi: {
     intro:
-      "No colecciono tutoriales: construyo software que la gente usa. Cofundé Conecta Systems, una consultora de desarrollo web en Ica, y combino la universidad con proyectos reales para clientes, negocios locales y campañas sociales.",
+      "Me enfoco en construir software que la gente realmente usa. Junto a un compañero impulso Conecta Systems, una marca propia bajo la que desarrollamos sitios web, automatizaciones y software a medida para clientes y negocios locales, trabajando por temporadas según los proyectos. Esa experiencia, sumada a la universidad, me ha permitido llevar ideas reales hasta producción.",
     // Lado humano: por qué la carrera y qué me mueve
     motivacion:
       "Elegí Ingeniería de Sistemas porque me fascina convertir problemas reales en soluciones que funcionan. No me apasiona el código por el código: me apasiona ver cómo una idea bien construida le ahorra horas a un negocio, ordena el caos de alguien o acerca la tecnología a quien creía que no era para él.",
@@ -1364,11 +1364,14 @@ function Hero({ t, irASeccion }) {
               <span style={{ fontFamily: MONO, fontSize: 10, letterSpacing: "0.18em", color: t.faint, textTransform: "uppercase" }}>
                 Experiencia
               </span>
-              <div className="flex flex-wrap items-center gap-x-5 gap-y-2 mt-3">
-                {DATOS.experiencia.map((e, i) => (
-                  <span key={e} className="flex items-center gap-5">
-                    {i > 0 && <span className="w-1 h-1 rounded-full" style={{ background: t.faint }} />}
-                    <span style={{ fontFamily: MONO, fontSize: 13, color: t.muted, fontWeight: 500 }}>{e}</span>
+              <div className="flex flex-wrap gap-2 mt-3">
+                {DATOS.experiencia.map((e) => (
+                  <span
+                    key={e}
+                    className="px-3 py-1.5 rounded-lg"
+                    style={{ fontFamily: MONO, fontSize: 12, color: t.muted, fontWeight: 500, background: "rgba(13,17,23,0.5)", border: `1px solid ${t.borderSoft}`, whiteSpace: "nowrap" }}
+                  >
+                    {e}
                   </span>
                 ))}
               </div>
@@ -2729,7 +2732,7 @@ export default function App() {
     <div style={{ background: t.bg, color: t.text, fontFamily: SANS, minHeight: "100vh" }}>
       <style>{`
         html { scroll-behavior: smooth; }
-        body { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; text-rendering: optimizeLegibility; }
+        body { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; text-rendering: optimizeLegibility; overflow-x: hidden; }
         h1, h2, h3, h4 { font-family: ${DISPLAY}; }
         @keyframes flotar { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(10px, -16px); } }
         @keyframes deriva1 { 0%, 100% { transform: translate(0, 0) scale(1); } 50% { transform: translate(70px, 50px) scale(1.18); } }
