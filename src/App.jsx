@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import {
   Github, Linkedin, Mail, Download, ArrowRight, ArrowLeft, ArrowUpRight,
   Menu, X, ChevronLeft, ChevronRight, ChevronDown, MapPin, CircleCheck, Layers, Database, Wrench,
@@ -2663,30 +2664,23 @@ function Contacto({ t }) {
             }}
           />
           <Reveal>
-            {/* Avatar animado que "espera" — detalle con carácter */}
-            <div className="relative inline-block mb-6">
-              <div
-                className="avatar-saluda relative w-20 h-20 mx-auto rounded-2xl flex items-center justify-center"
-                style={{ background: `linear-gradient(140deg, ${t.surface2}, ${t.surface})`, border: `1px solid ${t.border}`, boxShadow: t.shadowMd }}
-              >
-                {/* carita */}
-                <div className="relative" style={{ width: 44, height: 44 }}>
-                  {/* ojos */}
-                  <span className="ojo-parpadea absolute rounded-full" style={{ width: 6, height: 6, background: t.accent2Text, left: 8, top: 16 }} />
-                  <span className="ojo-parpadea absolute rounded-full" style={{ width: 6, height: 6, background: t.accent2Text, right: 8, top: 16 }} />
-                  {/* sonrisa */}
-                  <span className="absolute" style={{ left: 12, right: 12, bottom: 9, height: 8, borderBottom: `2.5px solid ${t.accentText}`, borderRadius: "0 0 12px 12px" }} />
-                </div>
-                {/* manita que saluda */}
-                <span className="manita-saluda absolute" style={{ right: -6, top: -8, fontSize: 22 }}>👋</span>
-                {/* punto "en línea" */}
-                <span className="absolute" style={{ bottom: -4, right: -4 }}>
-                  <span className="relative flex w-3.5 h-3.5">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full opacity-60" style={{ background: t.ok }} />
-                    <span className="relative inline-flex rounded-full w-3.5 h-3.5" style={{ background: t.ok, border: `2px solid ${t.surface}` }} />
-                  </span>
-                </span>
+            {/* Robot animado (Lottie) que "espera" — detalle con carácter */}
+            <div className="relative inline-block mb-4">
+              <div className="avatar-saluda mx-auto" style={{ width: 150, height: 150 }}>
+                <DotLottieReact
+                  src="https://lottie.host/4db68bbd-31f6-4cd8-84eb-189de081159a/IGmMCqhzpt.lottie"
+                  loop
+                  autoplay
+                  style={{ width: "100%", height: "100%" }}
+                />
               </div>
+              {/* punto "en línea" */}
+              <span className="absolute" style={{ bottom: 14, right: 14 }}>
+                <span className="relative flex w-3.5 h-3.5">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full opacity-60" style={{ background: t.ok }} />
+                  <span className="relative inline-flex rounded-full w-3.5 h-3.5" style={{ background: t.ok, border: `2px solid ${t.surface}` }} />
+                </span>
+              </span>
             </div>
 
             <div className="flex items-center justify-center gap-2.5 mb-5">
@@ -2841,13 +2835,9 @@ export default function App() {
         .palabra { display: inline-block; animation: aparecerPalabra 0.7s cubic-bezier(0.22, 1, 0.36, 1) both; }
         @keyframes seccionEntra { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
         .seccion-entra { animation: seccionEntra 0.45s cubic-bezier(0.22, 1, 0.36, 1) both; }
-        /* Avatar que espera en Contacto */
-        @keyframes flotarAvatar { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-7px); } }
-        @keyframes parpadeo { 0%,92%,100% { transform: scaleY(1); } 96% { transform: scaleY(0.1); } }
-        @keyframes saludar { 0%,60%,100% { transform: rotate(0deg); } 70% { transform: rotate(18deg); } 80% { transform: rotate(-8deg); } 90% { transform: rotate(14deg); } }
-        .avatar-saluda { animation: flotarAvatar 4s ease-in-out infinite; }
-        .ojo-parpadea { animation: parpadeo 4s ease-in-out infinite; transform-origin: center; }
-        .manita-saluda { animation: saludar 3s ease-in-out infinite; transform-origin: bottom left; }
+        /* Robot que espera en Contacto: flotación sutil */
+        @keyframes flotarAvatar { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+        .avatar-saluda { animation: flotarAvatar 4.5s ease-in-out infinite; }
         .modal-entrada { animation: modalEntrada 0.3s cubic-bezier(0.22, 1, 0.36, 1) both; }
         .marquesina:hover .pista { animation-play-state: paused; }
         .btn-brillo { position: relative; overflow: hidden; }
