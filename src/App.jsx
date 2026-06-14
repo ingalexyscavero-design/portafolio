@@ -2664,23 +2664,16 @@ function Contacto({ t }) {
             }}
           />
           <Reveal>
-            {/* Robot animado (Lottie) que "espera" — detalle con carácter */}
+            {/* Robot animado (Lottie) — detalle con carácter */}
             <div className="relative inline-block mb-4">
-              <div className="avatar-saluda mx-auto" style={{ width: 150, height: 150 }}>
+              <div className="avatar-saluda mx-auto" style={{ width: 200, height: 150 }}>
                 <DotLottieReact
-                  src="https://lottie.host/4db68bbd-31f6-4cd8-84eb-189de081159a/IGmMCqhzpt.lottie"
+                  src="/robot.lottie"
                   loop
                   autoplay
                   style={{ width: "100%", height: "100%" }}
                 />
               </div>
-              {/* punto "en línea" */}
-              <span className="absolute" style={{ bottom: 14, right: 14 }}>
-                <span className="relative flex w-3.5 h-3.5">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full opacity-60" style={{ background: t.ok }} />
-                  <span className="relative inline-flex rounded-full w-3.5 h-3.5" style={{ background: t.ok, border: `2px solid ${t.surface}` }} />
-                </span>
-              </span>
             </div>
 
             <div className="flex items-center justify-center gap-2.5 mb-5">
