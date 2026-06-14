@@ -214,7 +214,8 @@ const DATOS = {
   ],
 
   /* PROYECTOS
-     categoria: "implementado" | "negocio" | "personal" | "divulgacion"
+     categoria: "implementado" | "negocio" | "personal"
+     orden: (opcional) controla el orden de aparición dentro de su categoría
      Los enlaces demo/repo son placeholders. */
   proyectos: [
     {
@@ -392,7 +393,8 @@ const DATOS = {
     {
       id: "aiverse-os",
       codigo: "PRJ-05",
-      categoria: "divulgacion",
+      categoria: "personal",
+      orden: 2,
       nombre: "AIVERSE OS · Mi sistema con IA",
       corto: "Espacio donde comparto mi forma de trabajar con la IA: mi flujo, mis herramientas y cómo las combino en el día a día.",
       problema: "Mucha gente usa IA suelta; pocos tienen un flujo de trabajo real y ordenado para sacarle provecho de verdad.",
@@ -436,6 +438,7 @@ const DATOS = {
       id: "panel-hipico",
       codigo: "PRJ-06",
       categoria: "personal",
+      orden: 5,
       nombre: "Panel de Análisis Hípico",
       corto: "Herramienta de análisis de carreras de caballos: estadísticas históricas y comparación de rendimiento.",
       problema: "Analizar carreras implicaba cruzar datos dispersos a mano antes de cada jornada.",
@@ -522,6 +525,7 @@ const DATOS = {
       id: "kit-herramientas",
       codigo: "PRJ-08",
       categoria: "personal",
+      orden: 3,
       nombre: "Web de Enseñanza de Herramientas",
       corto: "Proyecto personal donde enseño mi kit de herramientas: cómo las uso y cuál elegir según el tipo de proyecto.",
       problema: "El conocimiento de qué herramienta usar para cada proyecto suele estar disperso y es difícil de transmitir.",
@@ -565,6 +569,7 @@ const DATOS = {
       id: "kidsapiens",
       codigo: "PRJ-09",
       categoria: "personal",
+      orden: 1,
       nombre: "Kidsapiens · IA para niños",
       corto: "Taller propio de Inteligencia Artificial para niños de primaria (2023), más charlas y exposiciones de IA en colegios de Ica.",
       problema: "En 2023, con la IA recién explotando, casi nadie la acercaba a los niños ni la explicaba de forma sencilla en Ica.",
@@ -595,14 +600,57 @@ const DATOS = {
           "Kidsapiens funcionó durante dos meses con buena acogida y se convirtió en el inicio de un pequeño recorrido de divulgación de IA en Ica. Una experiencia temprana de liderazgo, comunicación y de creer que la tecnología tiene más sentido cuando se comparte.",
       },
     },
+    {
+      id: "bot-telegram-noticias",
+      codigo: "PRJ-10",
+      categoria: "personal",
+      orden: 4,
+      nombre: "Bot de Noticias en Telegram",
+      corto: "Un bot que cada mañana y noche me envía a Telegram las noticias de tecnología filtradas según mis intereses.",
+      problema: "Mantenerse al día en tecnología exige revisar muchas fuentes a mano; la información dispersa quita tiempo y enfoque.",
+      resultado: "Un asistente automático que me entrega noticias relevantes a mi Telegram en mis horarios, sin que yo tenga que buscar nada.",
+      stack: ["Automatización", "Gemini API", "Telegram Bot", "APIs de búsqueda"],
+      gradiente: ["#0E7490", "#0891B2"],
+      imagen: "https://images.unsplash.com/photo-1611606063065-ee7946f0787a?auto=format&fit=crop&w=900&q=80", // mensajería / notificaciones (oscuro). ← reemplazar con captura real
+      detalle: {
+        resumen:
+          "Un bot personal de Telegram que automatiza mi consumo de noticias tecnológicas: en lugar de ir yo a buscar la información, ella viene a mí, ya filtrada y resumida, dos veces al día. (Proyecto en desarrollo.)",
+        problemaLargo:
+          "Quería estar al día en tecnología sin perder tiempo abriendo decenas de fuentes ni ahogarme en información irrelevante. Necesitaba algo que filtrara por mí, según lo que de verdad me interesa, y que respetara mi rutina.",
+        solucion:
+          "Diseñé un flujo que conecta APIs de búsqueda con Gemini para encontrar, filtrar y resumir las noticias del día según mis criterios, y las entrega a mi Telegram en dos momentos: por la mañana y por la noche. Yo solo abro el chat y leo lo que importa.",
+        arquitectura:
+          "Flujo de automatización programado: APIs de búsqueda alimentan a Gemini (filtra y resume), y un bot de Telegram entrega el resultado en horarios definidos. Sin interfaz que mantener: el canal es el propio Telegram.",
+        stackDetalle: {
+          frontend: ["Sin frontend: la 'interfaz' es el chat de Telegram"],
+          backend: ["Automatización programada — ejecución mañana y noche"],
+          baseDatos: ["No requiere: la información se entrega y se consume al instante"],
+          herramientas: ["Telegram Bot API — entrega de mensajes", "APIs de búsqueda — fuente de las noticias"],
+          ia: ["Gemini API — filtra y resume según mis intereses"],
+        },
+        decisiones: [
+          {
+            titulo: "La información viene a mí",
+            texto: "En vez de abrir webs a buscar, automaticé la entrega a Telegram en mis horarios. La tecnología se adapta a mi rutina, no al revés.",
+          },
+          {
+            titulo: "Filtrar, no acumular",
+            texto: "El bot no me manda todo: usa IA para quedarse solo con lo relevante para mí. Menos ruido, más señal.",
+          },
+        ],
+        impacto:
+          "Un asistente personal que me ahorra tiempo todos los días y me mantiene informado sin esfuerzo. Práctica real de automatización con IA y APIs, aplicable a cualquier flujo de información de un negocio.",
+        demo: "#",
+        repo: "#",
+      },
+    },
   ],
 };
 
 const CATEGORIAS = [
   { id: "implementado", titulo: "Clientes reales", nota: "Proyectos entregados y facturados a clientes reales." },
   { id: "negocio", titulo: "Proyectos aplicados", nota: "Trabajos profesionales para terceros: resuelven un problema real de alguien." },
-  { id: "personal", titulo: "Proyectos personales", nota: "Iniciativas propias para explorar y dominar nuevas tecnologías." },
-  { id: "divulgacion", titulo: "Divulgación e iniciativas", nota: "Enseñanza y difusión de tecnología: talleres, charlas y exposiciones de IA." },
+  { id: "personal", titulo: "Proyectos personales", nota: "Iniciativas propias para explorar, divulgar y dominar nuevas tecnologías." },
 ];
 
 /* ============================================================
@@ -1939,7 +1987,6 @@ const COLOR_CAT = {
   implementado: "ok",     // verde — ya en uso real
   negocio: "accent",      // cobre — solución de negocio
   personal: "accent2",    // cian — exploración personal
-  divulgacion: "ok",      // verde — enseñanza / iniciativa
 };
 
 function EtiquetaCategoria({ t, categoria, codigo }) {
@@ -1947,8 +1994,7 @@ function EtiquetaCategoria({ t, categoria, codigo }) {
   const color = t[claveColor];
   const cat = CATEGORIAS.find((c) => c.id === categoria);
   const corto = categoria === "implementado" ? "CLIENTE REAL"
-    : categoria === "negocio" ? "PARA TERCEROS"
-    : categoria === "divulgacion" ? "DIVULGACIÓN" : "PERSONAL";
+    : categoria === "negocio" ? "PARA TERCEROS" : "PERSONAL";
   return (
     <span
       className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full"
@@ -2064,7 +2110,9 @@ function Proyectos({ t, abrir }) {
       n: DATOS.proyectos.filter((p) => p.categoria === c.id).length,
     })),
   ];
-  const lista = filtro === "todos" ? DATOS.proyectos : DATOS.proyectos.filter((p) => p.categoria === filtro);
+  const lista = (filtro === "todos" ? DATOS.proyectos : DATOS.proyectos.filter((p) => p.categoria === filtro))
+    .slice()
+    .sort((a, b) => (a.orden ?? 99) - (b.orden ?? 99));
   const nota = CATEGORIAS.find((c) => c.id === filtro)?.nota;
 
   return (
