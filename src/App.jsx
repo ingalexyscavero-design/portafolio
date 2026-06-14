@@ -76,12 +76,25 @@ const DATOS = {
     {
       categoria: "Frontend",
       icono: "monitor",
-      descripcion: "Interfaces rápidas, accesibles y mantenibles.",
+      descripcion: "Interfaces rápidas, responsive y cuidadas al detalle.",
       items: [
-        { nombre: "React", slug: "react", color: "61DAFB", detalle: "Componentización y estado predecible en SPAs reales." },
-        { nombre: "Tailwind CSS", slug: "tailwindcss", color: "38BDF8", detalle: "Diseño consistente sin CSS muerto ni hojas gigantes." },
-        { nombre: "Vite", slug: "vite", color: "9499FF", detalle: "Builds instantáneos y DX moderna en todos mis proyectos." },
+        { nombre: "React", slug: "react", color: "61DAFB", detalle: "Mi herramienta principal: componentes y SPAs reales en producción." },
+        { nombre: "JavaScript (ES6+)", slug: "javascript", color: "F7DF1E", detalle: "La base de todo: lógica, interactividad y manejo del DOM." },
         { nombre: "TypeScript", slug: "typescript", color: "3178C6", detalle: "Tipado para detectar errores antes de llegar al usuario." },
+        { nombre: "HTML5", slug: "html5", color: "E34F26", detalle: "Estructura semántica y accesible en cada proyecto." },
+        { nombre: "CSS3", slug: "css", color: "663399", detalle: "Flexbox, grid y diseño responsive desde cero." },
+        { nombre: "Tailwind CSS", slug: "tailwindcss", color: "38BDF8", detalle: "Diseño consistente y rápido sin CSS muerto." },
+        { nombre: "Vite", slug: "vite", color: "9499FF", detalle: "Builds instantáneos y experiencia de desarrollo moderna." },
+      ],
+    },
+    {
+      categoria: "Diseño y UI",
+      icono: "monitor",
+      descripcion: "Que la web no solo funcione: que se vea y se sienta bien.",
+      items: [
+        { nombre: "Figma", slug: "figma", color: "F24E1E", detalle: "Diseño y maquetación de interfaces antes de construir." },
+        { nombre: "Diseño Responsive", slug: "", color: "", detalle: "Experiencia impecable en móvil, tablet y escritorio." },
+        { nombre: "UI / UX", slug: "", color: "", detalle: "Jerarquía visual, usabilidad y atención al detalle." },
       ],
     },
     {
