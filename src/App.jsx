@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import {
-  Github, Linkedin, Mail, Download, ArrowRight, ArrowLeft, ArrowUpRight,
+  Github, Linkedin, Mail, Download, ArrowRight, ArrowLeft,
   Menu, X, ChevronLeft, ChevronRight, ChevronDown, MapPin, CircleCheck, Layers, Database, Wrench,
-  Sparkles, Monitor, Award, ExternalLink, FolderGit2, ArrowUp,
+  Sparkles, Monitor, ExternalLink, FolderGit2, ArrowUp,
   Code2, Server, Settings2, BrainCircuit,
   BarChart3, BookOpen, MessageSquare, Bot, Workflow,
 } from "lucide-react";
@@ -1119,39 +1119,17 @@ function Tecnologias({ t }) {
 }
 
 /* ============================================================
-   CERTIFICADOS — carrusel deslizable: agrega los que quieras
-   al array DATOS.certificados y el diseño no cambia.
+   CERTIFICADOS — SECCIÓN EN CONSTRUCCIÓN (temporal)
+   La sección sigue visible y en la navegación, pero muestra un
+   estado "En construcción" mientras se suben los certificados
+   reales. El carrusel original (con DATOS.certificados y su modal)
+   está en el historial de git, listo para reactivar.
    ============================================================ */
 
-// Fila de dato dentro del modal de certificado
-function DatoCert({ t, etiqueta, color, children }) {
-  return (
-    <div className="flex gap-3 items-start">
-      <span className="shrink-0 mt-1 w-1 h-1 rounded-full" style={{ background: color }} />
-      <div>
-        <span style={{ fontFamily: MONO, fontSize: 9.5, letterSpacing: "0.14em", color: t.faint }}>{etiqueta}</span>
-        <p className="text-sm leading-snug" style={{ color: t.muted }}>{children}</p>
-      </div>
-    </div>
-  );
-}
-
+// Para reactivar: cuando los certificados estén listos, recupera el
+// carrusel original desde el historial de git (commit anterior a
+// "Certificados en construcción") y reemplaza este componente.
 function Certificados({ t }) {
-  const [activo, setActivo] = useState(null);
-  const pista = useRef(null);
-  const desplazar = (dir) => pista.current?.scrollBy({ left: dir * 300, behavior: "smooth" });
-  const total = DATOS.certificados.length;
-
-  // Cerrar modal con Escape y bloquear scroll del fondo mientras está abierto
-  useEffect(() => {
-    if (!activo) return;
-    const onKey = (e) => { if (e.key === "Escape") setActivo(null); };
-    window.addEventListener("keydown", onKey);
-    const prev = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    return () => { window.removeEventListener("keydown", onKey); document.body.style.overflow = prev; };
-  }, [activo]);
-
   return (
     <section id="certificados" className="relative py-20 md:py-28 px-5 md:px-8">
       <SepSeccion t={t} />
@@ -1161,130 +1139,193 @@ function Certificados({ t }) {
           num="03"
           eyebrow="Certificados"
           titulo="Formación que respalda la práctica"
-        >
-          <div className="hidden sm:flex items-center gap-2 shrink-0">
-            <button
-              type="button" aria-label="Anterior" onClick={() => desplazar(-1)}
-              className="flecha-carrusel w-11 h-11 rounded-full flex items-center justify-center transition-all duration-200"
-              style={{ border: `1px solid ${t.border}`, color: t.text, background: "rgba(13,17,23,0.6)" }}
-            >
-              <ChevronLeft size={17} />
-            </button>
-            <button
-              type="button" aria-label="Siguiente" onClick={() => desplazar(1)}
-              className="flecha-carrusel w-11 h-11 rounded-full flex items-center justify-center transition-all duration-200"
-              style={{ border: `1px solid ${t.border}`, color: t.text, background: "rgba(13,17,23,0.6)" }}
-            >
-              <ChevronRight size={17} />
-            </button>
-          </div>
-        </CabeceraSeccion>
+        />
+
         <Reveal>
-          <p className="mb-7 -mt-6" style={{ fontFamily: MONO, fontSize: 11, letterSpacing: "0.1em", color: t.faint }}>
-            {String(total).padStart(2, "0")} CERTIFICADOS · DESLIZA PARA VER MÁS →
-          </p>
-        </Reveal>
-
-        <Reveal delay={80}>
           <div
-            ref={pista}
-            className="sin-scroll flex gap-4 overflow-x-auto pb-2"
-            style={{ scrollSnapType: "x mandatory" }}
+            className="relative overflow-hidden rounded-3xl"
+            style={{
+              background: `linear-gradient(160deg, ${t.surface} 0%, ${t.bg} 100%)`,
+              border: `1px solid ${t.borderSoft}`,
+              boxShadow: t.shadowMd,
+            }}
           >
-            {DATOS.certificados.map((c) => (
-              <button
-                key={c.codigo}
-                type="button"
-                onClick={() => setActivo(c)}
-                className="tarjeta-certificado group w-72 shrink-0 text-left rounded-2xl overflow-hidden transition-all duration-300 hover:-translate-y-1 flex flex-col"
-                style={{ background: t.card, border: `1px solid ${t.borderSoft}`, scrollSnapAlign: "start" }}
-              >
-                <Foto src={c.imagen} alt={c.nombre} gradiente={["#121823", "#2A1F10"]} className="h-36" style={{ borderBottom: `1px solid ${t.borderSoft}` }}>
-                  <div className="absolute inset-0" style={{ background: "linear-gradient(transparent 30%, rgba(7,9,13,0.7))" }} />
-                  <div className="absolute top-2.5 left-2.5 flex items-center gap-1.5 px-2 py-1 rounded-md" style={{ background: "rgba(7,9,13,0.6)", backdropFilter: "blur(4px)" }}>
-                    <Award size={13} style={{ color: t.accentText }} />
-                    <span style={{ fontFamily: MONO, fontSize: 9.5, letterSpacing: "0.12em", color: "rgba(255,255,255,0.92)" }}>{c.codigo}</span>
-                  </div>
-                  <span className="absolute bottom-2.5 right-2.5 px-2 py-0.5 rounded-md" style={{ fontFamily: MONO, fontSize: 10, color: t.accent2Text, background: "rgba(7,9,13,0.6)", backdropFilter: "blur(4px)" }}>{c.fecha}</span>
-                </Foto>
-                <div className="p-4 flex flex-col flex-1">
-                  <h3 className="font-semibold text-sm mb-1 leading-snug" style={{ color: t.text }}>{c.nombre}</h3>
-                  <p style={{ fontFamily: MONO, fontSize: 10.5, color: t.faint }} className="mb-3">{c.institucion}</p>
-                  {c.temas && (
-                    <p className="text-xs leading-snug mb-3" style={{ color: t.muted }}>{c.temas}</p>
-                  )}
-                  {c.sector && (
-                    <span className="inline-block self-start text-xs px-2 py-1 rounded-md mb-3" style={{ fontFamily: MONO, fontSize: 9.5, color: t.accentText, background: t.accentSoft }}>
-                      {c.sector}
-                    </span>
-                  )}
-                  <span className="mt-auto text-xs font-semibold inline-flex items-center gap-1 transition-transform duration-200 group-hover:translate-x-0.5" style={{ color: t.accentText }}>
-                    Ver detalle <ArrowUpRight size={12} />
-                  </span>
-                </div>
-              </button>
-            ))}
-          </div>
-        </Reveal>
-      </div>
+            {/* Resplandores de marca (cobre + cian) */}
+            <div
+              aria-hidden
+              className="pointer-events-none absolute -top-32 -left-20 w-96 h-96 rounded-full opacity-40 blur-3xl"
+              style={{ background: `radial-gradient(circle, ${t.accentSoft}, transparent 70%)` }}
+            />
+            <div
+              aria-hidden
+              className="pointer-events-none absolute -bottom-32 -right-16 w-96 h-96 rounded-full opacity-30 blur-3xl"
+              style={{ background: `radial-gradient(circle, ${t.accent2Soft}, transparent 70%)` }}
+            />
+            {/* Cuadrícula técnica muy sutil de fondo */}
+            <div
+              aria-hidden
+              className="pointer-events-none absolute inset-0 opacity-[0.04]"
+              style={{
+                backgroundImage:
+                  `linear-gradient(${t.text} 1px, transparent 1px), linear-gradient(90deg, ${t.text} 1px, transparent 1px)`,
+                backgroundSize: "38px 38px",
+              }}
+            />
 
-      {/* Modal de certificado */}
-      {activo && (
-        <div
-          className="fixed inset-0 flex items-center justify-center p-5"
-          style={{ zIndex: 90, background: "rgba(0,0,0,0.65)", backdropFilter: "blur(4px)" }}
-          onClick={() => setActivo(null)}
-        >
-          <div
-            className="w-full max-w-lg rounded-2xl overflow-hidden modal-entrada sin-scroll"
-            style={{ background: t.surface, border: `1px solid ${t.border}`, maxHeight: "90vh", overflowY: "auto" }}
-            onClick={(e) => e.stopPropagation()}
-          >
-            <Foto src={activo.imagen} alt={activo.nombre} gradiente={["#121823", "#2A1F10"]} className="h-44" tinte={false}>
-              <div className="absolute inset-0" style={{ background: "linear-gradient(transparent 30%, rgba(7,9,13,0.85))" }} />
-              <button
-                type="button" aria-label="Cerrar" onClick={() => setActivo(null)}
-                className="absolute top-3 right-3 w-8 h-8 rounded-full flex items-center justify-center"
-                style={{ background: "rgba(7,9,13,0.6)", border: `1px solid ${t.border}`, color: "#fff" }}
-              >
-                <X size={15} />
-              </button>
-              <div className="absolute bottom-3 left-4 flex items-center gap-2">
-                <Award size={18} style={{ color: t.accentText }} />
-                <span style={{ fontFamily: MONO, fontSize: 11, letterSpacing: "0.12em", color: "rgba(255,255,255,0.92)" }}>
-                  {activo.codigo}
+            <div className="relative grid md:grid-cols-2 gap-8 items-center p-8 md:p-12">
+              {/* Columna izquierda: mensaje */}
+              <div className="text-center md:text-left order-2 md:order-1">
+                <span
+                  className="estado-vivo inline-flex items-center gap-2 px-3 py-1 rounded-full mb-5"
+                  style={{
+                    fontFamily: MONO,
+                    fontSize: 10.5,
+                    letterSpacing: "0.16em",
+                    color: t.accentText,
+                    background: t.accentSoft,
+                    border: `1px solid ${t.border}`,
+                  }}
+                >
+                  <span
+                    className="punto-vivo w-1.5 h-1.5 rounded-full"
+                    style={{ background: t.accent }}
+                  />
+                  EN CONSTRUCCIÓN
                 </span>
-              </div>
-            </Foto>
-            <div className="p-6">
-              <h3 className="font-bold text-xl mb-1" style={{ color: t.text }}>{activo.nombre}</h3>
-              <p style={{ fontFamily: MONO, fontSize: 12, color: t.accentText }} className="mb-4">
-                {activo.institucion} · {activo.fecha}
-              </p>
-              <p className="text-sm leading-relaxed mb-5" style={{ color: t.muted }}>{activo.descripcion}</p>
 
-              <div className="space-y-3 mb-6">
-                {activo.temas && (
-                  <DatoCert t={t} etiqueta="QUÉ ABARCA" color={t.accent2Text}>{activo.temas}</DatoCert>
-                )}
-                {activo.porque && (
-                  <DatoCert t={t} etiqueta="POR QUÉ LO ESTUDIÉ" color={t.accentText}>{activo.porque}</DatoCert>
-                )}
-                {activo.sector && (
-                  <DatoCert t={t} etiqueta="SECTOR APLICADO" color={t.accent2Text}>{activo.sector}</DatoCert>
-                )}
+                <h3
+                  className="text-2xl md:text-[2rem] leading-tight font-bold mb-3"
+                  style={{ fontFamily: DISPLAY, color: t.text }}
+                >
+                  Estoy preparando esta sección
+                </h3>
+                <p
+                  className="text-sm md:text-base leading-relaxed mb-7 mx-auto md:mx-0 max-w-md"
+                  style={{ color: t.muted }}
+                >
+                  Pronto verás aquí mis certificados y formación verificada.
+                  Los estoy organizando para mostrarlos como se merecen.
+                </p>
+
+                {/* Chips de lo que viene (da contenido, no se ve vacío) */}
+                <div className="flex flex-wrap gap-2 justify-center md:justify-start">
+                  {["Frontend", "React", "IA aplicada", "Automatización", "Datos"].map((tema) => (
+                    <span
+                      key={tema}
+                      className="px-3 py-1.5 rounded-lg text-xs"
+                      style={{
+                        fontFamily: MONO,
+                        color: t.muted,
+                        background: t.surface2,
+                        border: `1px solid ${t.borderSoft}`,
+                      }}
+                    >
+                      {tema}
+                    </span>
+                  ))}
+                </div>
+
+                {/* Barra de progreso decorativa */}
+                <div
+                  className="mt-8 h-1.5 w-full max-w-xs mx-auto md:mx-0 rounded-full overflow-hidden"
+                  style={{ background: t.borderSoft }}
+                >
+                  <div
+                    className="barra-construccion h-full rounded-full"
+                    style={{ background: `linear-gradient(90deg, ${t.accent}, ${t.accent2})` }}
+                  />
+                </div>
               </div>
 
-              <div className="flex flex-wrap gap-3">
-                {activo.enlace && (
-                  <Boton t={t} primario icono={ExternalLink} href={activo.enlace}>Ver certificado</Boton>
-                )}
-                <Boton t={t} onClick={() => setActivo(null)}>Cerrar</Boton>
+              {/* Columna derecha: ilustración de constructor (CSS ligero, sin lag) */}
+              <div className="order-1 md:order-2 flex justify-center">
+                <div className="relative" style={{ width: 240, height: 220 }}>
+                  {/* Halo detrás */}
+                  <div
+                    aria-hidden
+                    className="absolute inset-0 m-auto w-48 h-48 rounded-full opacity-50 blur-2xl"
+                    style={{ background: `radial-gradient(circle, ${t.accent2Soft}, transparent 70%)` }}
+                  />
+
+                  {/* Señal de obra balanceándose (cobre, rayada) */}
+                  <div
+                    className="senal-mece absolute left-1/2 -translate-x-1/2 z-10"
+                    style={{ top: 0 }}
+                  >
+                    {/* Cuerda de la que cuelga */}
+                    <div className="mx-auto w-px h-6" style={{ background: t.border }} />
+                    <div
+                      className="px-3 py-2 rounded-lg text-center"
+                      style={{
+                        background: t.accent,
+                        color: "#14100A",
+                        fontFamily: MONO, fontSize: 10, fontWeight: 700, letterSpacing: "0.1em",
+                        boxShadow: t.shadowMd,
+                        backgroundImage: "repeating-linear-gradient(45deg, rgba(0,0,0,0.15) 0 8px, transparent 8px 16px)",
+                      }}
+                    >
+                      EN OBRA
+                    </div>
+                  </div>
+
+                  {/* Casco de constructor */}
+                  <div className="absolute left-1/2 -translate-x-1/2" style={{ bottom: 36 }}>
+                    <div className="relative" style={{ width: 96, height: 60 }}>
+                      {/* Cúpula del casco */}
+                      <div
+                        className="absolute left-1/2 -translate-x-1/2 bottom-3"
+                        style={{
+                          width: 72, height: 40,
+                          borderTopLeftRadius: 40, borderTopRightRadius: 40,
+                          background: `linear-gradient(160deg, ${t.accentText}, ${t.accent})`,
+                          boxShadow: t.shadowMd,
+                        }}
+                      />
+                      {/* Cresta central del casco */}
+                      <div
+                        className="absolute left-1/2 -translate-x-1/2 bottom-3"
+                        style={{ width: 10, height: 38, borderRadius: 6, background: "rgba(0,0,0,0.18)" }}
+                      />
+                      {/* Ala / visera */}
+                      <div
+                        className="absolute left-1/2 -translate-x-1/2 bottom-1.5"
+                        style={{ width: 96, height: 12, borderRadius: 8, background: t.accent, boxShadow: t.shadowSoft }}
+                      />
+                    </div>
+                  </div>
+
+                  {/* Llave inglesa que se mece (cian) */}
+                  <div className="llave-mece absolute" style={{ bottom: 30, right: 22 }}>
+                    <div
+                      className="w-12 h-12 rounded-xl flex items-center justify-center"
+                      style={{ background: t.surface, border: `1px solid ${t.border}`, boxShadow: t.shadowSoft }}
+                    >
+                      <Wrench size={22} style={{ color: t.accent2Text }} />
+                    </div>
+                  </div>
+
+                  {/* Conos de obra en la base */}
+                  <div className="absolute left-1/2 -translate-x-1/2 flex gap-3" style={{ bottom: 0 }}>
+                    {[0, 1, 2].map((i) => (
+                      <div key={i} className="flex flex-col items-center">
+                        <div
+                          style={{
+                            width: 0, height: 0,
+                            borderLeft: "9px solid transparent",
+                            borderRight: "9px solid transparent",
+                            borderBottom: `20px solid ${t.accent}`,
+                          }}
+                        />
+                        <div className="w-6 h-1.5 rounded-sm -mt-px" style={{ background: t.accentText }} />
+                      </div>
+                    ))}
+                  </div>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      )}
+        </Reveal>
+      </div>
     </section>
   );
 }
@@ -1754,73 +1795,16 @@ function PaginaProyecto({ t, proyecto: p, volver }) {
    GALERÍA — collage masonry de momentos y recuerdos
    ============================================================ */
 
-// Una foto "clavada" en el panel de recuerdos. Estética de pared/corcho:
-// marco claro, pin arriba, leve rotación, etiqueta tipo nota.
-function FotoGaleria({ t, item, onAbrir, idx }) {
-  const usarRespaldo = item.src?.startsWith("/galeria/");
-  const src = usarRespaldo ? item.respaldo : item.src;
-  const alturas = { alto: "h-72 sm:h-80", medio: "h-56 sm:h-64", bajo: "h-44 sm:h-52" };
-  // Rotación pseudo-aleatoria pero estable por índice (-2.5° a 2.5°)
-  const rot = [(idx * 37) % 5 - 2.5];
-  return (
-    <div className="mb-5" style={{ breakInside: "avoid" }}>
-      <button
-        type="button"
-        onClick={() => onAbrir({ ...item, src })}
-        className="foto-galeria group relative w-full block text-left rounded-xl"
-        style={{
-          background: "#F4F1EA",                       // marco tipo polaroid
-          padding: "10px 10px 14px",
-          boxShadow: t.shadowMd,
-          transform: `rotate(${rot}deg)`,
-          border: "1px solid rgba(0,0,0,0.08)",
-        }}
-      >
-        {/* Pin / chincheta */}
-        <span
-          aria-hidden
-          className="absolute left-1/2 -translate-x-1/2 -top-2 w-4 h-4 rounded-full z-10"
-          style={{ background: idx % 2 ? t.accent2 : t.accent, boxShadow: "0 2px 5px rgba(0,0,0,0.4), inset 0 -1px 2px rgba(0,0,0,0.3)" }}
-        />
-        <div className="relative rounded-md overflow-hidden">
-          <Foto
-            src={src}
-            alt={item.titulo}
-            gradiente={item.gradiente}
-            tinte={false}
-            className={`${alturas[item.alto] || alturas.medio} w-full`}
-          >
-            <span
-              className="absolute top-2 right-2 w-8 h-8 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-              style={{ background: "rgba(7,9,13,0.55)", border: `1px solid rgba(255,255,255,0.3)`, color: "#fff", backdropFilter: "blur(4px)" }}
-            >
-              <ArrowUpRight size={15} />
-            </span>
-          </Foto>
-        </div>
-        {/* Leyenda tipo nota manuscrita */}
-        <div className="px-1.5 pt-2.5">
-          <h3 className="font-semibold text-sm leading-tight" style={{ color: "#1A1A1A" }}>{item.titulo}</h3>
-          <p style={{ fontFamily: MONO, fontSize: 10.5, color: "#6B6B6B", marginTop: 2 }}>{item.lugar}</p>
-        </div>
-      </button>
-    </div>
-  );
-}
-
+// Para reactivar: cuando tengas las fotos, recupera el muro masonry
+// original (el .map sobre DATOS.galeria con FotoGaleria y su lightbox)
+// desde el historial de git y reemplaza este componente.
 function Galeria({ t }) {
-  const [activa, setActiva] = useState(null);
-
-  useEffect(() => {
-    if (!activa) return;
-    const onKey = (e) => { if (e.key === "Escape") setActiva(null); };
-    window.addEventListener("keydown", onKey);
-    const prev = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    return () => { window.removeEventListener("keydown", onKey); document.body.style.overflow = prev; };
-  }, [activa]);
-
-  if (!DATOS.galeria?.length) return null;
+  // Las polaroids de la ilustración: rotación, tema (cobre/cian) y un emoji.
+  const polaroids = [
+    { rot: -8, color: t.accent, emoji: "📸", x: "8%", delay: "0s" },
+    { rot: 6, color: t.accent2, emoji: "🎤", x: "38%", delay: "0.3s" },
+    { rot: -4, color: t.accent, emoji: "🤝", x: "66%", delay: "0.6s" },
+  ];
 
   return (
     <section id="galeria" className="relative py-20 md:py-28 px-5 md:px-8">
@@ -1831,74 +1815,134 @@ function Galeria({ t }) {
           num="05"
           eyebrow="Mi panel"
           titulo="El muro de mis recuerdos"
-          descripcion="Talleres, charlas y momentos detrás del código. Un panel vivo: aquí voy clavando lo que vivo y lo que construyo."
         />
 
-        {/* Panel/pared de recuerdos: textura sutil + fotos clavadas */}
         <Reveal>
           <div
-            className="relative rounded-3xl p-5 sm:p-8"
+            className="relative overflow-hidden rounded-3xl"
             style={{
+              background: `linear-gradient(160deg, ${t.surface} 0%, ${t.bg} 100%)`,
               border: `1px solid ${t.borderSoft}`,
-              background: `
-                radial-gradient(circle at 20% 10%, rgba(232,152,62,0.05), transparent 40%),
-                radial-gradient(circle at 85% 90%, rgba(34,211,238,0.05), transparent 40%),
-                ${t.surface}`,
-              boxShadow: "inset 0 1px 0 rgba(255,255,255,0.03)",
+              boxShadow: t.shadowMd,
             }}
           >
+            {/* Resplandores de marca */}
+            <div
+              aria-hidden
+              className="pointer-events-none absolute -top-32 -right-20 w-96 h-96 rounded-full opacity-40 blur-3xl"
+              style={{ background: `radial-gradient(circle, ${t.accentSoft}, transparent 70%)` }}
+            />
+            <div
+              aria-hidden
+              className="pointer-events-none absolute -bottom-32 -left-16 w-96 h-96 rounded-full opacity-30 blur-3xl"
+              style={{ background: `radial-gradient(circle, ${t.accent2Soft}, transparent 70%)` }}
+            />
             {/* Textura de puntos del corcho/muro */}
             <div
               aria-hidden
-              className="absolute inset-0 rounded-3xl pointer-events-none"
+              className="pointer-events-none absolute inset-0 opacity-50"
               style={{
                 backgroundImage: "radial-gradient(rgba(255,255,255,0.04) 1px, transparent 1px)",
                 backgroundSize: "18px 18px",
               }}
             />
-            <div className="relative" style={{ columnGap: "1.25rem", columnCount: "auto" }}>
-              <div className="[column-count:1] sm:[column-count:2] lg:[column-count:3]" style={{ columnGap: "1.25rem" }}>
-                {DATOS.galeria.map((item, i) => (
-                  <FotoGaleria key={i} t={t} item={item} onAbrir={setActiva} idx={i} />
-                ))}
+
+            <div className="relative grid md:grid-cols-2 gap-8 items-center p-8 md:p-12">
+              {/* Columna izquierda: mensaje */}
+              <div className="text-center md:text-left order-2 md:order-1">
+                <span
+                  className="estado-vivo inline-flex items-center gap-2 px-3 py-1 rounded-full mb-5"
+                  style={{
+                    fontFamily: MONO, fontSize: 10.5, letterSpacing: "0.16em",
+                    color: t.accent2Text, background: t.accent2Soft, border: `1px solid ${t.border}`,
+                  }}
+                >
+                  <span className="punto-vivo w-1.5 h-1.5 rounded-full" style={{ background: t.accent2 }} />
+                  EN CONSTRUCCIÓN
+                </span>
+
+                <h3
+                  className="text-2xl md:text-[2rem] leading-tight font-bold mb-3"
+                  style={{ fontFamily: DISPLAY, color: t.text }}
+                >
+                  Este muro pronto cobrará vida
+                </h3>
+                <p
+                  className="text-sm md:text-base leading-relaxed mb-7 mx-auto md:mx-0 max-w-md"
+                  style={{ color: t.muted }}
+                >
+                  Estoy reuniendo las fotos de mis talleres, charlas y momentos
+                  detrás del código. Muy pronto las verás clavadas aquí.
+                </p>
+
+                {/* Chips de lo que vendrá */}
+                <div className="flex flex-wrap gap-2 justify-center md:justify-start">
+                  {["Talleres", "Charlas", "Equipo", "Detrás del código"].map((tema) => (
+                    <span
+                      key={tema}
+                      className="px-3 py-1.5 rounded-lg text-xs"
+                      style={{
+                        fontFamily: MONO, color: t.muted,
+                        background: t.surface2, border: `1px solid ${t.borderSoft}`,
+                      }}
+                    >
+                      {tema}
+                    </span>
+                  ))}
+                </div>
+
+                {/* Barra de progreso decorativa */}
+                <div
+                  className="mt-8 h-1.5 w-full max-w-xs mx-auto md:mx-0 rounded-full overflow-hidden"
+                  style={{ background: t.borderSoft }}
+                >
+                  <div
+                    className="barra-construccion h-full rounded-full"
+                    style={{ background: `linear-gradient(90deg, ${t.accent2}, ${t.accent})` }}
+                  />
+                </div>
+              </div>
+
+              {/* Columna derecha: polaroids "clavándose" (CSS, temática de fotos) */}
+              <div className="order-1 md:order-2 flex justify-center">
+                <div className="relative" style={{ width: 280, height: 230 }}>
+                  {polaroids.map((p, i) => (
+                    <div
+                      key={i}
+                      className="polaroid-flota absolute"
+                      style={{
+                        left: p.x,
+                        top: `${i * 14}px`,
+                        ["--rot"]: `${p.rot}deg`,
+                        animationDelay: p.delay,
+                      }}
+                    >
+                      {/* Chincheta */}
+                      <span
+                        aria-hidden
+                        className="absolute left-1/2 -translate-x-1/2 -top-2 w-3.5 h-3.5 rounded-full z-10"
+                        style={{ background: p.color, boxShadow: "0 2px 5px rgba(0,0,0,0.4), inset 0 -1px 2px rgba(0,0,0,0.3)" }}
+                      />
+                      {/* Marco polaroid */}
+                      <div
+                        className="rounded-md flex items-center justify-center"
+                        style={{ width: 92, height: 110, background: "#F4F1EA", padding: "8px 8px 18px", boxShadow: t.shadowLg, border: "1px solid rgba(0,0,0,0.08)" }}
+                      >
+                        <div
+                          className="w-full h-full rounded-sm flex items-center justify-center text-2xl"
+                          style={{ background: `linear-gradient(160deg, ${t.surface2}, ${t.surface})` }}
+                        >
+                          {p.emoji}
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
           </div>
         </Reveal>
-
-        <p className="text-center mt-5" style={{ fontFamily: MONO, fontSize: 11, letterSpacing: "0.08em", color: t.faint }}>
-          {String(DATOS.galeria.length).padStart(2, "0")} RECUERDOS · ESTE MURO SIGUE CRECIENDO
-        </p>
       </div>
-
-      {/* Lightbox */}
-      {activa && (
-        <div
-          className="fixed inset-0 flex items-center justify-center p-5"
-          style={{ zIndex: 90, background: "rgba(0,0,0,0.8)", backdropFilter: "blur(6px)" }}
-          onClick={() => setActiva(null)}
-        >
-          <div
-            className="relative w-full max-w-3xl rounded-2xl overflow-hidden modal-entrada"
-            style={{ border: `1px solid ${t.border}`, boxShadow: t.shadowLg }}
-            onClick={(e) => e.stopPropagation()}
-          >
-            <Foto src={activa.src} alt={activa.titulo} gradiente={activa.gradiente} tinte={false} className="max-h-[78vh] w-full" style={{ minHeight: 300 }}>
-              <button
-                type="button" aria-label="Cerrar" onClick={() => setActiva(null)}
-                className="absolute top-3 right-3 w-9 h-9 rounded-full flex items-center justify-center"
-                style={{ background: "rgba(7,9,13,0.65)", border: `1px solid ${t.border}`, color: "#fff" }}
-              >
-                <X size={16} />
-              </button>
-              <div className="absolute inset-x-0 bottom-0 p-5" style={{ background: "linear-gradient(transparent, rgba(7,9,13,0.92))" }}>
-                <h3 className="font-bold text-lg" style={{ color: "#fff" }}>{activa.titulo}</h3>
-                <p style={{ fontFamily: MONO, fontSize: 12, color: t.accentText }}>{activa.lugar}</p>
-              </div>
-            </Foto>
-          </div>
-        </div>
-      )}
     </section>
   );
 }
@@ -2163,8 +2207,24 @@ export default function App() {
         .tarjeta-proyecto:active { transform: scale(0.99); }
         .tarjeta-certificado:hover { border-color: ${t.accent2} !important; box-shadow: ${t.shadowMd}; }
         .tarjeta-certificado:active { transform: translateY(0) scale(0.98); }
-        .foto-galeria { transition: transform 0.35s cubic-bezier(0.22,1,0.36,1), box-shadow 0.35s ease; transform-origin: center center; }
-        .foto-galeria:hover { transform: rotate(0deg) scale(1.04) !important; box-shadow: ${t.shadowLg}; z-index: 5; }
+        /* Sección "En construcción": punto vivo, barra, polaroids y constructor */
+        .punto-vivo { animation: latido 1.6s ease-in-out infinite; }
+        .senal-mece { animation: senalMece 3.5s ease-in-out infinite; transform-origin: top center; }
+        @keyframes senalMece { 0%,100% { transform: translateX(-50%) rotate(-4deg); } 50% { transform: translateX(-50%) rotate(4deg); } }
+        .llave-mece { animation: llaveMece 2.6s ease-in-out infinite; transform-origin: center; }
+        @keyframes llaveMece { 0%,100% { transform: rotate(-15deg); } 50% { transform: rotate(15deg); } }
+        .polaroid-flota { transform: rotate(var(--rot)); animation: polaroidFlota 4s ease-in-out infinite; }
+        @keyframes polaroidFlota {
+          0%,100% { transform: rotate(var(--rot)) translateY(0); }
+          50% { transform: rotate(var(--rot)) translateY(-9px); }
+        }
+        @keyframes latido { 0%,100% { opacity: 1; box-shadow: 0 0 0 0 ${t.accent}66; } 50% { opacity: 0.6; box-shadow: 0 0 0 5px transparent; } }
+        .barra-construccion { width: 40%; animation: progresoVaiven 2.4s ease-in-out infinite; }
+        @keyframes progresoVaiven {
+          0% { margin-left: 0; width: 25%; }
+          50% { margin-left: 60%; width: 40%; }
+          100% { margin-left: 0; width: 25%; }
+        }
         .zoomable img { transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1); }
         .group:hover .zoomable img, .zoomable:hover img { transform: scale(1.07); }
         .foco { background: radial-gradient(380px circle at var(--mx, 50%) var(--my, 50%), ${t.accentSoft}, transparent 65%); }
