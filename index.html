@@ -11,6 +11,13 @@
     <meta property="og:type" content="website" />
     <meta name="theme-color" content="#07090D" />
 
+    <!-- Fondo oscuro desde el primer instante: evita el "flash" blanco
+         antes de que React pinte y durante las transiciones. -->
+    <style>
+      html, body, #root { background-color: #07090D; }
+      body { margin: 0; }
+    </style>
+
     <!-- Tipografía premium: Space Grotesk (títulos) + JetBrains Mono (ficha técnica) -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />

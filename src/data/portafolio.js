@@ -210,51 +210,8 @@ export const DATOS = {
      Los enlaces demo/repo son placeholders. */
   proyectos: [
     {
-      id: "memorias-de-noel",
-      codigo: "PRJ-01",
-      categoria: "negocio",
-      nombre: "Memorias de Noel",
-      corto: "Plataforma web para una campaña benéfica navideña con muro interactivo de notas y gestión de voluntarios.",
-      problema: "La campaña coordinaba donaciones y voluntarios por WhatsApp, sin orden ni visibilidad.",
-      resultado: "Usada en una campaña real: centralizó inscripciones y dio identidad pública al proyecto.",
-      stack: ["React", "Supabase", "Netlify", "Tailwind"],
-      gradiente: ["#7F1D1D", "#B45309"],
-      imagen: "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&w=900&q=80", // plataforma web / equipo (oscuro). ← reemplazar con captura real del proyecto
-      detalle: {
-        resumen:
-          "Aplicación web para una campaña navideña de caridad: un muro estilo corcho donde los participantes dejan notas, más un flujo de registro de voluntarios. Diseñada, construida y desplegada en producción para una campaña real.",
-        problemaLargo:
-          "La organización gestionaba todo por mensajes sueltos: no había un lugar único para inscribirse como voluntario, registrar aportes ni mostrar el avance de la campaña al público.",
-        solucion:
-          "Una SPA con un muro interactivo de notas adhesivas (cada nota es un mensaje o compromiso), formulario de voluntarios con validación y panel de datos respaldado por Supabase. Despliegue automatizado en Netlify.",
-        arquitectura:
-          "Frontend React + Vite consumiendo Supabase como backend (PostgreSQL + API autogenerada). Sin servidor propio: la infraestructura serverless mantiene el costo en cero para la ONG.",
-        stackDetalle: {
-          frontend: ["React + Vite — SPA ligera de carga rápida", "Tailwind CSS — estética de corcho y notas con utilidades"],
-          backend: ["Supabase — auth, API REST y realtime sin backend propio"],
-          baseDatos: ["PostgreSQL (Supabase) — notas, voluntarios y aportes"],
-          herramientas: ["Netlify — despliegue continuo desde Git", "GitHub — control de versiones"],
-          ia: ["Claude — aceleración del desarrollo y revisión de código"],
-        },
-        decisiones: [
-          {
-            titulo: "Supabase en lugar de backend propio",
-            texto: "Para una ONG sin presupuesto, un backend dedicado era inviable. Supabase dio base de datos, API y seguridad por fila con costo cero y tiempo de desarrollo mínimo.",
-          },
-          {
-            titulo: "UI temática sin sacrificar usabilidad",
-            texto: "El muro de corcho aporta identidad, pero los flujos críticos (inscribirse, donar) se mantienen como formularios simples y directos.",
-          },
-        ],
-        impacto:
-          "La campaña tuvo por primera vez un canal digital propio: inscripciones ordenadas, visibilidad pública y una base reutilizable para futuras ediciones.",
-        demo: "#",
-        repo: "#",
-      },
-    },
-    {
       id: "vistony-ruta-nazca",
-      codigo: "PRJ-02",
+      codigo: "PRJ-01",
       categoria: "negocio",
       nombre: "Vistony · Ruta Nazca",
       corto: "App móvil de ventas en campo con 286 clientes geocodificados, ruta optimizada por GPS y registro diario de avance.",
@@ -297,7 +254,7 @@ export const DATOS = {
     },
     {
       id: "academia-barnard",
-      codigo: "PRJ-03",
+      codigo: "PRJ-02",
       categoria: "implementado",
       nombre: "Academia Barnard",
       corto: "Sitio web institucional para una academia, desarrollado como proyecto cliente de Conecta Systems.",
@@ -340,7 +297,7 @@ export const DATOS = {
     },
     {
       id: "academia-lubricantes",
-      codigo: "PRJ-04",
+      codigo: "PRJ-03",
       categoria: "negocio",
       nombre: "Mini-academia de Lubricantes",
       corto: "Plataforma educativa para capacitar vendedores de lubricantes: lecciones, progreso y evaluaciones.",
@@ -383,7 +340,7 @@ export const DATOS = {
     },
     {
       id: "aiverse-os",
-      codigo: "PRJ-05",
+      codigo: "PRJ-04",
       categoria: "personal",
       orden: 2,
       nombre: "AIVERSE OS · Mi sistema con IA",
@@ -427,7 +384,7 @@ export const DATOS = {
     },
     {
       id: "panel-hipico",
-      codigo: "PRJ-06",
+      codigo: "PRJ-05",
       categoria: "personal",
       orden: 5,
       nombre: "Panel de Análisis Hípico",
@@ -471,7 +428,7 @@ export const DATOS = {
     },
     {
       id: "rafo-calderon",
-      codigo: "PRJ-07",
+      codigo: "PRJ-06",
       categoria: "implementado",
       nombre: "Rafo Calderón · Sitio del Actor",
       corto: "Website profesional para el actor Rafo Calderón: presencia digital con foco en posicionamiento SEO y branding.",
@@ -514,7 +471,7 @@ export const DATOS = {
     },
     {
       id: "kit-herramientas",
-      codigo: "PRJ-08",
+      codigo: "PRJ-07",
       categoria: "personal",
       orden: 3,
       nombre: "Web de Enseñanza de Herramientas",
@@ -558,7 +515,7 @@ export const DATOS = {
     },
     {
       id: "kidsapiens",
-      codigo: "PRJ-09",
+      codigo: "PRJ-08",
       categoria: "personal",
       orden: 1,
       nombre: "Kidsapiens · IA para niños",
@@ -593,7 +550,7 @@ export const DATOS = {
     },
     {
       id: "bot-telegram-noticias",
-      codigo: "PRJ-10",
+      codigo: "PRJ-09",
       categoria: "personal",
       orden: 4,
       nombre: "Bot de Noticias en Telegram",

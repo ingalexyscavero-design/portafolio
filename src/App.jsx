@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import {
   Github, Linkedin, Mail, Download, ArrowRight, ArrowLeft,
-  Menu, X, ChevronLeft, ChevronRight, ChevronDown, MapPin, CircleCheck, Layers, Database, Wrench,
+  Menu, X, ChevronDown, MapPin, CircleCheck, Layers, Database, Wrench,
   Sparkles, Monitor, ExternalLink, FolderGit2, ArrowUp,
   Code2, Server, Settings2, BrainCircuit,
   BarChart3, BookOpen, MessageSquare, Bot, Workflow,
@@ -12,6 +12,7 @@ import {
 import { DATOS, CATEGORIAS } from "./data/portafolio";
 import { TEMA, DISPLAY, SANS, MONO } from "./theme/theme";
 import { useReveal, movReducido } from "./hooks/useReveal";
+import Bienvenida from "./components/Bienvenida";
 
 // Iconos Lucide para marcas sin logo en Simple Icons (clave -> componente)
 const LUCIDE_TECH = { powerbi: BarChart3, gpt: MessageSquare, notebooklm: BookOpen, perplexity: Bot, n8n: Workflow };
@@ -1359,102 +1360,177 @@ function EtiquetaCategoria({ t, categoria, codigo }) {
   );
 }
 
-function MiniaturaProyecto({ t, p, alta }) {
+// Miniatura del proyecto presentada como una "ventana de navegador":
+// barra superior con semáforo + URL falsa, y debajo la captura.
+// Esto hace que cada proyecto se lea como un producto real desplegado.
+//   alta = versión grande para la portada de la página individual.
+function MiniaturaProyecto({ t, p, alta = false }) {
+  // URL de muestra para la barra del navegador (decorativa)
+  const urlFalsa = `caverotech.com/${p.id}`;
   return (
-    <Foto
-      src={p.imagen}
-      alt={p.nombre}
-      gradiente={p.gradiente}
-      tinte={false}
-      className={`${alta ? "h-52 md:h-72" : "h-48"}`}
-    >
-      {/* Velo de marca del proyecto */}
+    <div className={alta ? "" : "px-4 pt-4"}>
       <div
-        className="absolute inset-0"
-        style={{ background: `linear-gradient(155deg, ${p.gradiente[0]}D9 0%, ${p.gradiente[1]}66 50%, rgba(7,9,13,0.35) 100%)` }}
-      />
-      <div
-        className="absolute inset-0"
-        style={{ background: "linear-gradient(transparent 45%, rgba(7,9,13,0.85))" }}
-      />
-      {/* Rejilla técnica sutil */}
-      <div
-        className="absolute inset-0 opacity-20"
-        style={{
-          backgroundImage: "linear-gradient(rgba(255,255,255,0.25) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.25) 1px, transparent 1px)",
-          backgroundSize: "28px 28px",
-          maskImage: "radial-gradient(120% 100% at 0% 0%, #000, transparent 70%)",
-          WebkitMaskImage: "radial-gradient(120% 100% at 0% 0%, #000, transparent 70%)",
-        }}
-      />
-      {/* Código del proyecto, arriba a la derecha */}
-      <span
-        className="absolute top-3 right-3"
-        style={{ fontFamily: MONO, fontSize: 10, letterSpacing: "0.14em", color: "rgba(255,255,255,0.7)" }}
+        className="relative overflow-hidden"
+        style={
+          alta
+            ? {}
+            : { borderRadius: 12, border: `1px solid ${t.borderSoft}`, boxShadow: t.shadowMd }
+        }
       >
-        {p.codigo}
-      </span>
-      {/* Etiqueta de categoría, abajo a la izquierda */}
-      <div className="absolute bottom-3 left-3">
-        <EtiquetaCategoria t={t} categoria={p.categoria} codigo={p.codigo} />
-      </div>
-    </Foto>
-  );
-}
+        {/* Barra del navegador */}
+        <div
+          className="flex items-center gap-2 px-3"
+          style={{ height: alta ? 38 : 32, background: t.surface2, borderBottom: `1px solid ${t.borderSoft}` }}
+        >
+          {/* Semáforo */}
+          <span className="flex gap-1.5">
+            <span className="w-2.5 h-2.5 rounded-full" style={{ background: "#FF5F57" }} />
+            <span className="w-2.5 h-2.5 rounded-full" style={{ background: "#FEBC2E" }} />
+            <span className="w-2.5 h-2.5 rounded-full" style={{ background: "#28C840" }} />
+          </span>
+          {/* Barra de dirección */}
+          <span
+            className="ml-2 flex-1 truncate rounded-md px-2.5 py-1"
+            style={{ fontFamily: MONO, fontSize: 10, color: t.faint, background: t.bg, border: `1px solid ${t.borderSoft}` }}
+          >
+            {urlFalsa}
+          </span>
+        </div>
 
-function FilaDato({ t, etiqueta, icono: Icono, color, children }) {
-  return (
-    <div className="flex gap-2.5 items-start">
-      <span
-        className="shrink-0 mt-0.5 w-6 h-6 rounded-md flex items-center justify-center"
-        style={{ background: `${color}1A`, color }}
-      >
-        <Icono size={12} />
-      </span>
-      <div className="min-w-0">
-        <span style={{ fontFamily: MONO, fontSize: 9.5, letterSpacing: "0.12em", color: t.faint }}>{etiqueta}</span>
-        <p className="text-sm leading-snug" style={{ color: t.muted }}>{children}</p>
+        {/* Captura del proyecto */}
+        <Foto src={p.imagen} alt={p.nombre} gradiente={p.gradiente} tinte={false} className={alta ? "h-56 md:h-80" : "h-40 md:h-44"}>
+          {/* Velo de marca del proyecto */}
+          <div
+            className="absolute inset-0"
+            style={{ background: `linear-gradient(155deg, ${p.gradiente[0]}CC 0%, ${p.gradiente[1]}55 55%, rgba(7,9,13,0.45) 100%)` }}
+          />
+          {/* Rejilla técnica sutil */}
+          <div
+            className="absolute inset-0 opacity-20"
+            style={{
+              backgroundImage: "linear-gradient(rgba(255,255,255,0.25) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.25) 1px, transparent 1px)",
+              backgroundSize: "26px 26px",
+              maskImage: "radial-gradient(120% 100% at 0% 0%, #000, transparent 70%)",
+              WebkitMaskImage: "radial-gradient(120% 100% at 0% 0%, #000, transparent 70%)",
+            }}
+          />
+          {/* Etiqueta de categoría, abajo a la izquierda */}
+          <div className="absolute bottom-2.5 left-2.5">
+            <EtiquetaCategoria t={t} categoria={p.categoria} codigo={p.codigo} />
+          </div>
+        </Foto>
       </div>
     </div>
   );
 }
 
-function TarjetaProyecto({ t, p, abrir, delay }) {
+// Tarjeta del mosaico "bento". `destacado` la hace grande (proyecto estrella):
+// la imagen ocupa todo el bloque como fondo y el texto va encima, abajo.
+function TarjetaBento({ t, p, abrir, delay, destacado }) {
+  const color = t[COLOR_CAT[p.categoria]] || t.accent;
   return (
     <Reveal delay={delay} className="h-full">
-      <TiltCard>
-        <button
-          type="button"
-          onClick={() => abrir(p.id)}
-          className="tarjeta-proyecto group relative w-full h-full text-left rounded-2xl overflow-hidden transition-all duration-300"
-          style={{ background: t.card, border: `1px solid ${t.borderSoft}` }}
-        >
-          <div className="foco absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={{ zIndex: 2 }} />
-          <MiniaturaProyecto t={t} p={p} />
-          <div className="p-5 md:p-6">
-            <h3 className="font-bold mb-2" style={{ color: t.text, fontFamily: DISPLAY, fontSize: "1.15rem", letterSpacing: "-0.01em" }}>{p.nombre}</h3>
-            <p className="text-sm leading-relaxed mb-5" style={{ color: t.muted }}>{p.corto}</p>
-            <div className="space-y-3 mb-5 pb-5" style={{ borderBottom: `1px solid ${t.borderSoft}` }}>
-              <FilaDato t={t} etiqueta="PROBLEMA" icono={Wrench} color={t.accentText}>{p.problema}</FilaDato>
-              <FilaDato t={t} etiqueta="RESULTADO" icono={CircleCheck} color={t.accent2Text}>{p.resultado}</FilaDato>
-            </div>
-            <div className="flex flex-wrap gap-1.5 mb-5">
-              {p.stack.map((s) => <Chip key={s} t={t}>{s}</Chip>)}
-            </div>
-            <span className="inline-flex items-center gap-1.5 text-sm font-semibold transition-transform duration-200 group-hover:translate-x-1" style={{ color: t.accentText }}>
-              Ver caso completo <ArrowRight size={15} />
-            </span>
+      <button
+        type="button"
+        onClick={() => abrir(p.id)}
+        className="bento-item group relative w-full h-full text-left rounded-2xl overflow-hidden transition-all duration-300"
+        style={{ background: t.card, border: `1px solid ${t.borderSoft}`, minHeight: destacado ? 320 : 230 }}
+      >
+        {/* Imagen de fondo a sangre completa */}
+        <div className="absolute inset-0">
+          <Foto src={p.imagen} alt={p.nombre} gradiente={p.gradiente} tinte={false} className="w-full h-full">
+            {/* Velo de marca + oscurecido para legibilidad del texto */}
+            <div
+              className="absolute inset-0"
+              style={{ background: `linear-gradient(160deg, ${p.gradiente[0]}AA 0%, ${p.gradiente[1]}33 40%, rgba(7,9,13,0.92) 100%)` }}
+            />
+            {/* Rejilla técnica sutil */}
+            <div
+              className="absolute inset-0 opacity-15"
+              style={{
+                backgroundImage: "linear-gradient(rgba(255,255,255,0.3) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.3) 1px, transparent 1px)",
+                backgroundSize: "30px 30px",
+                maskImage: "radial-gradient(120% 90% at 100% 0%, #000, transparent 65%)",
+                WebkitMaskImage: "radial-gradient(120% 90% at 100% 0%, #000, transparent 65%)",
+              }}
+            />
+          </Foto>
+        </div>
+
+        {/* Brillo que sigue al cursor */}
+        <div className="foco absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={{ zIndex: 2 }} />
+
+        {/* Esquina superior: categoría + código */}
+        <div className="absolute top-4 left-4 right-4 flex items-center justify-between z-10">
+          <EtiquetaCategoria t={t} categoria={p.categoria} codigo={p.codigo} />
+          <span style={{ fontFamily: MONO, fontSize: 10, letterSpacing: "0.14em", color: "rgba(255,255,255,0.65)" }}>
+            {p.codigo}
+          </span>
+        </div>
+
+        {/* Contenido inferior */}
+        <div className="absolute inset-x-0 bottom-0 p-5 md:p-6 z-10">
+          <h3
+            className="font-bold mb-2 leading-tight"
+            style={{ color: "#fff", fontFamily: DISPLAY, fontSize: destacado ? "1.7rem" : "1.2rem", letterSpacing: "-0.01em" }}
+          >
+            {p.nombre}
+          </h3>
+          <p
+            className={`leading-relaxed mb-4 ${destacado ? "text-sm md:text-base max-w-xl" : "text-sm"}`}
+            style={{
+              color: "rgba(255,255,255,0.82)",
+              // En las tarjetas pequeñas, recortamos a 2 líneas para mantener la altura uniforme
+              ...(destacado ? {} : { display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden" }),
+            }}
+          >
+            {p.corto}
+          </p>
+
+          {/* Stack: en destacado se ven todos; en pequeño, los primeros 3 */}
+          <div className="flex flex-wrap items-center gap-1.5 mb-4">
+            {(destacado ? p.stack : p.stack.slice(0, 3)).map((s) => (
+              <span
+                key={s}
+                className="px-2 py-1 rounded-md"
+                style={{ fontFamily: MONO, fontSize: 10, color: "rgba(255,255,255,0.9)", background: "rgba(255,255,255,0.1)", backdropFilter: "blur(4px)", border: "1px solid rgba(255,255,255,0.12)" }}
+              >
+                {s}
+              </span>
+            ))}
+            {!destacado && p.stack.length > 3 && (
+              <span style={{ fontFamily: MONO, fontSize: 10, color: "rgba(255,255,255,0.6)" }}>+{p.stack.length - 3}</span>
+            )}
           </div>
-        </button>
-      </TiltCard>
+
+          {/* Llamada a la acción */}
+          <span
+            className="inline-flex items-center gap-2 text-sm font-semibold"
+            style={{ color: "#fff" }}
+          >
+            Ver caso completo
+            <span
+              className="w-7 h-7 rounded-full flex items-center justify-center transition-all duration-200 group-hover:translate-x-1"
+              style={{ background: color, color: "#0A0A0A" }}
+            >
+              <ArrowRight size={14} />
+            </span>
+          </span>
+        </div>
+
+        {/* Línea de acento que aparece arriba en hover */}
+        <div
+          aria-hidden
+          className="absolute top-0 left-0 right-0 h-0.5 origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-300 z-10"
+          style={{ background: `linear-gradient(90deg, ${color}, transparent)` }}
+        />
+      </button>
     </Reveal>
   );
 }
 
 function Proyectos({ t, abrir }) {
   const [filtro, setFiltro] = useState("todos");
-  const pista = useRef(null);
-  const desplazar = (dir) => pista.current?.scrollBy({ left: dir * 360, behavior: "smooth" });
   const pestanas = [
     { id: "todos", label: "Todos", n: DATOS.proyectos.length },
     ...CATEGORIAS.map((c) => ({
@@ -1504,70 +1580,29 @@ function Proyectos({ t, abrir }) {
               );
             })}
           </div>
-          <div className="flex items-center justify-between gap-4 mb-7">
-            <p className="text-sm" style={{ color: t.faint, minHeight: 20 }}>
-              {nota || "Todo mi trabajo: clientes reales, proyectos aplicados y personales."}
-            </p>
-            {/* Flechas del carrusel (solo si hay para deslizar) */}
-            <div className="hidden sm:flex items-center gap-2 shrink-0">
-              <button
-                type="button" aria-label="Anterior" onClick={() => desplazar(-1)}
-                className="flecha-carrusel w-11 h-11 rounded-full flex items-center justify-center transition-all duration-200"
-                style={{ border: `1px solid ${t.border}`, color: t.text, background: "rgba(13,17,23,0.6)" }}
-              >
-                <ChevronLeft size={17} />
-              </button>
-              <button
-                type="button" aria-label="Siguiente" onClick={() => desplazar(1)}
-                className="flecha-carrusel w-11 h-11 rounded-full flex items-center justify-center transition-all duration-200"
-                style={{ border: `1px solid ${t.border}`, color: t.text, background: "rgba(13,17,23,0.6)" }}
-              >
-                <ChevronRight size={17} />
-              </button>
-            </div>
-          </div>
+          <p className="text-sm mb-7" style={{ color: t.faint, minHeight: 20 }}>
+            {nota || "Todo mi trabajo: clientes reales, proyectos aplicados y personales."}
+          </p>
         </Reveal>
 
-        {/* Carrusel horizontal con filtros: escala sin alargar la página */}
-        <Reveal>
-          <div className="relative">
-            <div
-              key={filtro}
-              ref={pista}
-              className="sin-scroll flex gap-5 overflow-x-auto pb-3 -mx-1 px-1"
-              style={{ scrollSnapType: "x mandatory" }}
-            >
-              {lista.map((p, i) => (
-                <div
-                  key={p.id}
-                  className="shrink-0 w-[78vw] xs:w-[300px] sm:w-[340px]"
-                  style={{ scrollSnapAlign: "start", maxWidth: 340 }}
-                >
-                  <TarjetaProyecto t={t} p={p} abrir={abrir} delay={Math.min(i, 4) * 70} />
-                </div>
-              ))}
-            </div>
-            {/* Desvanecido derecho: insinúa que hay más (solo si hay más de 1) */}
-            {lista.length > 1 && (
-              <div
-                aria-hidden
-                className="absolute top-0 right-0 bottom-3 w-16 pointer-events-none hidden sm:block"
-                style={{ background: `linear-gradient(90deg, transparent, ${t.bg})` }}
-              />
-            )}
-          </div>
-        </Reveal>
-
-        {/* Indicador claro de "desliza" — visible y con conteo */}
-        {lista.length > 1 && (
-          <div className="flex items-center gap-2.5 mt-4">
-            <span className="flex-1 h-px" style={{ background: t.borderSoft }} />
-            <span className="inline-flex items-center gap-1.5" style={{ fontFamily: MONO, fontSize: 10.5, letterSpacing: "0.12em", color: t.accent2Text }}>
-              <ChevronLeft size={13} /> DESLIZA · {lista.length} PROYECTOS <ChevronRight size={13} />
-            </span>
-            <span className="flex-1 h-px" style={{ background: t.borderSoft }} />
-          </div>
-        )}
+        {/* Mosaico "bento": el primer proyecto destaca grande, el resto en rejilla */}
+        <div key={filtro} className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5 auto-rows-fr">
+          {lista.map((p, i) => {
+            // El primer proyecto de la lista es el destacado: ocupa 2 columnas.
+            const destacado = i === 0 && lista.length > 1;
+            return (
+              <div key={p.id} className={destacado ? "md:col-span-2" : ""}>
+                <TarjetaBento
+                  t={t}
+                  p={p}
+                  abrir={abrir}
+                  delay={Math.min(i, 5) * 70}
+                  destacado={destacado}
+                />
+              </div>
+            );
+          })}
+        </div>
       </div>
     </section>
   );
@@ -2130,6 +2165,9 @@ function Footer({ t }) {
 
 export default function App() {
   const t = TEMA;
+  // ¿Mostrar la pantalla de bienvenida antes del portafolio?
+  // (mientras elegimos cuál de las 3 intros usar, está en modo selector)
+  const [mostrarIntro, setMostrarIntro] = useState(true);
   // vista: { pagina: 'seccion', id } | { pagina: 'proyecto', id }
   const [vista, setVista] = useState({ pagina: "seccion", id: "inicio" });
 
@@ -2166,9 +2204,18 @@ export default function App() {
     contacto: <Contacto t={t} />,
   };
 
+  // Mientras dure la bienvenida, mostramos solo la intro.
+  if (mostrarIntro) {
+    return <Bienvenida onTerminar={() => setMostrarIntro(false)} />;
+  }
+
   return (
-    <div style={{ background: t.bg, color: t.text, fontFamily: SANS, minHeight: "100vh" }}>
+    <div className="portafolio-entra" style={{ background: t.bg, color: t.text, fontFamily: SANS, minHeight: "100vh" }}>
       <style>{`
+        /* Aparición suave del portafolio tras la intro (evita el salto en seco) */
+        .portafolio-entra { animation: portafolioEntra 0.6s ease both; }
+        @keyframes portafolioEntra { from { opacity: 0; } to { opacity: 1; } }
+        @media (prefers-reduced-motion: reduce) { .portafolio-entra { animation: none; } }
         html { scroll-behavior: smooth; }
         body { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; text-rendering: optimizeLegibility; overflow-x: hidden; }
         h1, h2, h3, h4 { font-family: ${DISPLAY}; }
@@ -2202,9 +2249,12 @@ export default function App() {
         .canal-contacto:hover { transform: translateY(-3px); border-color: ${t.border} !important; box-shadow: ${t.shadowSoft}; }
         .flecha-carrusel:hover { transform: translateY(-2px); border-color: ${t.accent} !important; color: ${t.accentText} !important; background: ${t.accentSoft} !important; }
         .flecha-carrusel:active { transform: translateY(0) scale(0.92); }
-        .tarjeta-proyecto { will-change: transform; }
-        .tarjeta-proyecto:hover { border-color: ${t.accent} !important; box-shadow: ${t.shadowMd}, 0 0 0 1px ${t.accent}22; }
-        .tarjeta-proyecto:active { transform: scale(0.99); }
+        /* Mosaico bento de proyectos: elevación e imagen con zoom al pasar el mouse */
+        .bento-item { will-change: transform; transition: transform 0.3s cubic-bezier(0.22,1,0.36,1), box-shadow 0.3s ease, border-color 0.3s ease; }
+        .bento-item:hover { transform: translateY(-5px); border-color: ${t.border} !important; box-shadow: ${t.shadowLg}; }
+        .bento-item:active { transform: translateY(-2px) scale(0.995); }
+        .bento-item .zoomable img { transition: transform 0.6s cubic-bezier(0.22,1,0.36,1); }
+        .bento-item:hover .zoomable img { transform: scale(1.06); }
         .tarjeta-certificado:hover { border-color: ${t.accent2} !important; box-shadow: ${t.shadowMd}; }
         .tarjeta-certificado:active { transform: translateY(0) scale(0.98); }
         /* Sección "En construcción": punto vivo, barra, polaroids y constructor */
