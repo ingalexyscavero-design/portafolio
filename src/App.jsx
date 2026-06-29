@@ -6,6 +6,7 @@ import {
   Sparkles, Monitor, ExternalLink, FolderGit2, ArrowUp,
   Code2, Server, Settings2, BrainCircuit,
   BarChart3, BookOpen, MessageSquare, Bot, Workflow,
+  Mic, Heart,
 } from "lucide-react";
 
 // Datos del portafolio y tema, separados en sus propios archivos para mantener todo ordenado
@@ -1827,19 +1828,134 @@ function PaginaProyecto({ t, proyecto: p, volver }) {
 }
 
 /* ============================================================
-   GALERÍA — collage masonry de momentos y recuerdos
+   MOMENTOS — muro tipo polaroid: lo profesional + lo humano.
+   Cada momento muestra su foto (si la hay) o un placeholder
+   elegante con un ícono según su `tipo`, más título y fecha.
    ============================================================ */
 
-// Para reactivar: cuando tengas las fotos, recupera el muro masonry
-// original (el .map sobre DATOS.galeria con FotoGaleria y su lightbox)
-// desde el historial de git y reemplaza este componente.
+// Ícono y color por categoría de momento (para el placeholder sin foto)
+const ICONO_MOMENTO = {
+  trabajo:      { Icono: Layers,   color: "accentText" },
+  formacion:    { Icono: BookOpen, color: "accent2Text" },
+  ensenanza:    { Icono: Mic,      color: "accentText" },
+  voluntariado: { Icono: Heart,    color: "accent2Text" },
+  personal:     { Icono: Sparkles, color: "accentText" },
+};
+
+// Una polaroid clavada en el muro. Si tiene foto la muestra;
+// si no, un placeholder con el ícono de su categoría.
+function MomentoPolaroid({ t, m, idx, onAbrir }) {
+  const alturas = { alto: "h-64 sm:h-72", medio: "h-52 sm:h-60", bajo: "h-40 sm:h-48" };
+  const rot = (idx * 41) % 5 - 2.5;                 // rotación estable -2.5° a 2.5°
+  const tieneFoto = Boolean(m.foto);
+  const info = ICONO_MOMENTO[m.categoria] || ICONO_MOMENTO.personal;
+  const colorIcono = t[info.color];
+
+  return (
+    <div className="mb-5" style={{ breakInside: "avoid" }}>
+      <button
+        type="button"
+        onClick={() => tieneFoto && onAbrir(m)}
+        className="momento-polaroid group relative w-full block text-left rounded-xl"
+        style={{
+          background: "#F4F1EA", padding: "10px 10px 14px",
+          boxShadow: t.shadowMd, transform: `rotate(${rot}deg)`,
+          border: "1px solid rgba(0,0,0,0.08)", cursor: tieneFoto ? "pointer" : "default",
+        }}
+      >
+        {/* Chincheta */}
+        <span
+          aria-hidden
+          className="absolute left-1/2 -translate-x-1/2 -top-2 w-4 h-4 rounded-full z-10"
+          style={{ background: idx % 2 ? t.accent2 : t.accent, boxShadow: "0 2px 5px rgba(0,0,0,0.4), inset 0 -1px 2px rgba(0,0,0,0.3)" }}
+        />
+
+        {/* Foto o placeholder */}
+        <div className={`relative rounded-md overflow-hidden ${alturas[m.alto] || alturas.medio}`}>
+          {tieneFoto ? (
+            <Foto src={m.foto} alt={m.titulo} tinte={false} className="w-full h-full">
+              <span
+                className="absolute top-2 right-2 w-8 h-8 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                style={{ background: "rgba(7,9,13,0.55)", border: "1px solid rgba(255,255,255,0.3)", color: "#fff", backdropFilter: "blur(4px)" }}
+              >
+                <ArrowUp size={14} className="rotate-45" />
+              </span>
+            </Foto>
+          ) : (
+            // Placeholder elegante (sin foto aún)
+            <div
+              className="w-full h-full flex flex-col items-center justify-center gap-3"
+              style={{ background: `linear-gradient(160deg, ${t.surface2}, ${t.surface})` }}
+            >
+              <span
+                className="w-12 h-12 rounded-full flex items-center justify-center"
+                style={{ background: `${colorIcono}1A`, border: `1px solid ${colorIcono}33`, color: colorIcono }}
+              >
+                <info.Icono size={20} />
+              </span>
+              <span style={{ fontFamily: MONO, fontSize: 9, letterSpacing: "0.14em", color: t.faint }}>
+                PRÓXIMAMENTE
+              </span>
+            </div>
+          )}
+        </div>
+
+        {/* Leyenda tipo nota manuscrita */}
+        <div className="px-1.5 pt-2.5">
+          <h3 className="font-semibold text-sm leading-tight" style={{ color: "#1A1A1A" }}>{m.titulo}</h3>
+          <p style={{ fontFamily: MONO, fontSize: 10.5, color: "#6B6B6B", marginTop: 2 }}>
+            {m.lugar} · {m.fecha}
+          </p>
+        </div>
+      </button>
+    </div>
+  );
+}
+
+// Cuántos momentos se ven a la vez (el resto va en otras páginas)
+const MOMENTOS_POR_PAGINA = 9;
+
 function Galeria({ t }) {
-  // Las polaroids de la ilustración: rotación, tema (cobre/cian) y un emoji.
-  const polaroids = [
-    { rot: -8, color: t.accent, emoji: "📸", x: "8%", delay: "0s" },
-    { rot: 6, color: t.accent2, emoji: "🎤", x: "38%", delay: "0.3s" },
-    { rot: -4, color: t.accent, emoji: "🤝", x: "66%", delay: "0.6s" },
-  ];
+  const [activa, setActiva] = useState(null);
+  const [filtro, setFiltro] = useState("todos");
+  const [pagina, setPagina] = useState(1);
+
+  // Cerrar el visor con Escape y bloquear el scroll del fondo
+  useEffect(() => {
+    if (!activa) return;
+    const onKey = (e) => { if (e.key === "Escape") setActiva(null); };
+    window.addEventListener("keydown", onKey);
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => { window.removeEventListener("keydown", onKey); document.body.style.overflow = prev; };
+  }, [activa]);
+
+  // Al cambiar de filtro, volver siempre a la página 1
+  const cambiarFiltro = (id) => { setFiltro(id); setPagina(1); };
+
+  if (!DATOS.galeria?.length) return null;
+
+  // Pestañas de filtro: "Todos" + cada categoría con su conteo
+  const cats = DATOS.categoriasMomentos || [];
+  const pestanas = [
+    { id: "todos", label: "Todos", n: DATOS.galeria.length },
+    ...cats.map((c) => ({
+      id: c.id,
+      label: c.label,
+      n: DATOS.galeria.filter((m) => m.categoria === c.id).length,
+    })),
+  ].filter((tab) => tab.id === "todos" || tab.n > 0); // oculta categorías vacías
+
+  // Momentos del filtro actual
+  const filtrados = filtro === "todos"
+    ? DATOS.galeria
+    : DATOS.galeria.filter((m) => m.categoria === filtro);
+
+  // Paginación: máximo 9 por página
+  const totalPaginas = Math.ceil(filtrados.length / MOMENTOS_POR_PAGINA);
+  const paginaSegura = Math.min(pagina, totalPaginas) || 1;
+  const inicio = (paginaSegura - 1) * MOMENTOS_POR_PAGINA;
+  const lista = filtrados.slice(inicio, inicio + MOMENTOS_POR_PAGINA);
 
   return (
     <section id="galeria" className="relative py-20 md:py-28 px-5 md:px-8">
@@ -1849,135 +1965,147 @@ function Galeria({ t }) {
           t={t}
           num="05"
           eyebrow="Mi panel"
-          titulo="El muro de mis recuerdos"
+          titulo="El muro de mis momentos"
+          descripcion="Como programador y como persona: trabajo, formación, enseñanza, voluntariado y los momentos detrás del código. Este muro sigue creciendo."
         />
 
+        {/* Pestañas de filtro por categoría */}
+        <Reveal delay={60}>
+          <div className="flex flex-wrap gap-2 mb-7">
+            {pestanas.map((tab) => {
+              const activaTab = filtro === tab.id;
+              return (
+                <button
+                  key={tab.id}
+                  type="button"
+                  onClick={() => cambiarFiltro(tab.id)}
+                  className="boton-base px-4 py-2.5 rounded-full text-sm font-medium transition-all duration-200"
+                  style={{
+                    background: activaTab ? t.accent : "rgba(13,17,23,0.6)",
+                    color: activaTab ? "#14100A" : t.muted,
+                    border: `1px solid ${activaTab ? t.accent : t.border}`,
+                  }}
+                >
+                  {tab.label}
+                  <span className="ml-1.5" style={{ fontFamily: MONO, fontSize: 11, opacity: 0.75 }}>{tab.n}</span>
+                </button>
+              );
+            })}
+          </div>
+        </Reveal>
+
+        {/* Muro/pared de momentos: textura sutil + polaroids clavadas */}
         <Reveal>
           <div
-            className="relative overflow-hidden rounded-3xl"
+            className="relative rounded-3xl p-5 sm:p-8"
             style={{
-              background: `linear-gradient(160deg, ${t.surface} 0%, ${t.bg} 100%)`,
               border: `1px solid ${t.borderSoft}`,
-              boxShadow: t.shadowMd,
+              background: `
+                radial-gradient(circle at 20% 10%, rgba(232,152,62,0.05), transparent 40%),
+                radial-gradient(circle at 85% 90%, rgba(34,211,238,0.05), transparent 40%),
+                ${t.surface}`,
+              boxShadow: "inset 0 1px 0 rgba(255,255,255,0.03)",
             }}
           >
-            {/* Resplandores de marca */}
-            <div
-              aria-hidden
-              className="pointer-events-none absolute -top-32 -right-20 w-96 h-96 rounded-full opacity-40 blur-3xl"
-              style={{ background: `radial-gradient(circle, ${t.accentSoft}, transparent 70%)` }}
-            />
-            <div
-              aria-hidden
-              className="pointer-events-none absolute -bottom-32 -left-16 w-96 h-96 rounded-full opacity-30 blur-3xl"
-              style={{ background: `radial-gradient(circle, ${t.accent2Soft}, transparent 70%)` }}
-            />
             {/* Textura de puntos del corcho/muro */}
             <div
               aria-hidden
-              className="pointer-events-none absolute inset-0 opacity-50"
+              className="absolute inset-0 rounded-3xl pointer-events-none"
               style={{
                 backgroundImage: "radial-gradient(rgba(255,255,255,0.04) 1px, transparent 1px)",
                 backgroundSize: "18px 18px",
               }}
             />
-
-            <div className="relative grid md:grid-cols-2 gap-8 items-center p-8 md:p-12">
-              {/* Columna izquierda: mensaje */}
-              <div className="text-center md:text-left order-2 md:order-1">
-                <span
-                  className="estado-vivo inline-flex items-center gap-2 px-3 py-1 rounded-full mb-5"
-                  style={{
-                    fontFamily: MONO, fontSize: 10.5, letterSpacing: "0.16em",
-                    color: t.accent2Text, background: t.accent2Soft, border: `1px solid ${t.border}`,
-                  }}
-                >
-                  <span className="punto-vivo w-1.5 h-1.5 rounded-full" style={{ background: t.accent2 }} />
-                  EN CONSTRUCCIÓN
-                </span>
-
-                <h3
-                  className="text-2xl md:text-[2rem] leading-tight font-bold mb-3"
-                  style={{ fontFamily: DISPLAY, color: t.text }}
-                >
-                  Este muro pronto cobrará vida
-                </h3>
-                <p
-                  className="text-sm md:text-base leading-relaxed mb-7 mx-auto md:mx-0 max-w-md"
-                  style={{ color: t.muted }}
-                >
-                  Estoy reuniendo las fotos de mis talleres, charlas y momentos
-                  detrás del código. Muy pronto las verás clavadas aquí.
-                </p>
-
-                {/* Chips de lo que vendrá */}
-                <div className="flex flex-wrap gap-2 justify-center md:justify-start">
-                  {["Talleres", "Charlas", "Equipo", "Detrás del código"].map((tema) => (
-                    <span
-                      key={tema}
-                      className="px-3 py-1.5 rounded-lg text-xs"
-                      style={{
-                        fontFamily: MONO, color: t.muted,
-                        background: t.surface2, border: `1px solid ${t.borderSoft}`,
-                      }}
-                    >
-                      {tema}
-                    </span>
-                  ))}
-                </div>
-
-                {/* Barra de progreso decorativa */}
-                <div
-                  className="mt-8 h-1.5 w-full max-w-xs mx-auto md:mx-0 rounded-full overflow-hidden"
-                  style={{ background: t.borderSoft }}
-                >
-                  <div
-                    className="barra-construccion h-full rounded-full"
-                    style={{ background: `linear-gradient(90deg, ${t.accent2}, ${t.accent})` }}
-                  />
-                </div>
-              </div>
-
-              {/* Columna derecha: polaroids "clavándose" (CSS, temática de fotos) */}
-              <div className="order-1 md:order-2 flex justify-center">
-                <div className="relative" style={{ width: 280, height: 230 }}>
-                  {polaroids.map((p, i) => (
-                    <div
-                      key={i}
-                      className="polaroid-flota absolute"
-                      style={{
-                        left: p.x,
-                        top: `${i * 14}px`,
-                        ["--rot"]: `${p.rot}deg`,
-                        animationDelay: p.delay,
-                      }}
-                    >
-                      {/* Chincheta */}
-                      <span
-                        aria-hidden
-                        className="absolute left-1/2 -translate-x-1/2 -top-2 w-3.5 h-3.5 rounded-full z-10"
-                        style={{ background: p.color, boxShadow: "0 2px 5px rgba(0,0,0,0.4), inset 0 -1px 2px rgba(0,0,0,0.3)" }}
-                      />
-                      {/* Marco polaroid */}
-                      <div
-                        className="rounded-md flex items-center justify-center"
-                        style={{ width: 92, height: 110, background: "#F4F1EA", padding: "8px 8px 18px", boxShadow: t.shadowLg, border: "1px solid rgba(0,0,0,0.08)" }}
-                      >
-                        <div
-                          className="w-full h-full rounded-sm flex items-center justify-center text-2xl"
-                          style={{ background: `linear-gradient(160deg, ${t.surface2}, ${t.surface})` }}
-                        >
-                          {p.emoji}
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
+            <div key={`${filtro}-${paginaSegura}`} className="relative [column-count:1] sm:[column-count:2] lg:[column-count:3]" style={{ columnGap: "1.25rem" }}>
+              {lista.map((m, i) => (
+                <MomentoPolaroid key={`${filtro}-${inicio + i}`} t={t} m={m} idx={inicio + i} onAbrir={setActiva} />
+              ))}
             </div>
           </div>
         </Reveal>
+
+        {/* Paginación: aparece solo si hay más de una página (más de 9 momentos) */}
+        {totalPaginas > 1 && (
+          <div className="flex items-center justify-center gap-2 mt-7">
+            {/* Anterior */}
+            <button
+              type="button" aria-label="Página anterior"
+              onClick={() => setPagina((p) => Math.max(1, p - 1))}
+              disabled={paginaSegura === 1}
+              className="boton-base w-10 h-10 rounded-full flex items-center justify-center transition-all duration-200"
+              style={{ border: `1px solid ${t.border}`, color: t.text, background: "rgba(13,17,23,0.6)", opacity: paginaSegura === 1 ? 0.4 : 1, cursor: paginaSegura === 1 ? "default" : "pointer" }}
+            >
+              <ArrowLeft size={15} />
+            </button>
+
+            {/* Números de página */}
+            {Array.from({ length: totalPaginas }, (_, i) => i + 1).map((n) => {
+              const activaPag = n === paginaSegura;
+              return (
+                <button
+                  key={n}
+                  type="button"
+                  onClick={() => setPagina(n)}
+                  className="boton-base w-10 h-10 rounded-full text-sm font-semibold transition-all duration-200"
+                  style={{
+                    fontFamily: MONO,
+                    background: activaPag ? t.accent : "rgba(13,17,23,0.6)",
+                    color: activaPag ? "#14100A" : t.muted,
+                    border: `1px solid ${activaPag ? t.accent : t.border}`,
+                  }}
+                >
+                  {n}
+                </button>
+              );
+            })}
+
+            {/* Siguiente */}
+            <button
+              type="button" aria-label="Página siguiente"
+              onClick={() => setPagina((p) => Math.min(totalPaginas, p + 1))}
+              disabled={paginaSegura === totalPaginas}
+              className="boton-base w-10 h-10 rounded-full flex items-center justify-center transition-all duration-200"
+              style={{ border: `1px solid ${t.border}`, color: t.text, background: "rgba(13,17,23,0.6)", opacity: paginaSegura === totalPaginas ? 0.4 : 1, cursor: paginaSegura === totalPaginas ? "default" : "pointer" }}
+            >
+              <ArrowRight size={15} />
+            </button>
+          </div>
+        )}
+
+        <p className="text-center mt-5" style={{ fontFamily: MONO, fontSize: 11, letterSpacing: "0.08em", color: t.faint }}>
+          {String(filtrados.length).padStart(2, "0")} MOMENTOS
+          {totalPaginas > 1 ? ` · PÁGINA ${paginaSegura} DE ${totalPaginas}` : " · ESTE MURO SIGUE CRECIENDO"}
+        </p>
       </div>
+
+      {/* Visor de foto (lightbox) — solo para momentos con foto */}
+      {activa && (
+        <div
+          className="fixed inset-0 flex items-center justify-center p-5"
+          style={{ zIndex: 90, background: "rgba(0,0,0,0.8)", backdropFilter: "blur(6px)" }}
+          onClick={() => setActiva(null)}
+        >
+          <div
+            className="relative w-full max-w-3xl rounded-2xl overflow-hidden modal-entrada"
+            style={{ border: `1px solid ${t.border}`, boxShadow: t.shadowLg }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <Foto src={activa.foto} alt={activa.titulo} tinte={false} className="max-h-[78vh] w-full" style={{ minHeight: 300 }}>
+              <button
+                type="button" aria-label="Cerrar" onClick={() => setActiva(null)}
+                className="absolute top-3 right-3 w-9 h-9 rounded-full flex items-center justify-center"
+                style={{ background: "rgba(7,9,13,0.65)", border: `1px solid ${t.border}`, color: "#fff" }}
+              >
+                <X size={16} />
+              </button>
+              <div className="absolute inset-x-0 bottom-0 p-5" style={{ background: "linear-gradient(transparent, rgba(7,9,13,0.92))" }}>
+                <h3 className="font-bold text-lg" style={{ color: "#fff" }}>{activa.titulo}</h3>
+                <p style={{ fontFamily: MONO, fontSize: 12, color: t.accentText }}>{activa.lugar} · {activa.fecha}</p>
+              </div>
+            </Foto>
+          </div>
+        </div>
+      )}
     </section>
   );
 }
@@ -2263,12 +2391,10 @@ export default function App() {
         @keyframes senalMece { 0%,100% { transform: translateX(-50%) rotate(-4deg); } 50% { transform: translateX(-50%) rotate(4deg); } }
         .llave-mece { animation: llaveMece 2.6s ease-in-out infinite; transform-origin: center; }
         @keyframes llaveMece { 0%,100% { transform: rotate(-15deg); } 50% { transform: rotate(15deg); } }
-        .polaroid-flota { transform: rotate(var(--rot)); animation: polaroidFlota 4s ease-in-out infinite; }
-        @keyframes polaroidFlota {
-          0%,100% { transform: rotate(var(--rot)) translateY(0); }
-          50% { transform: rotate(var(--rot)) translateY(-9px); }
-        }
         @keyframes latido { 0%,100% { opacity: 1; box-shadow: 0 0 0 0 ${t.accent}66; } 50% { opacity: 0.6; box-shadow: 0 0 0 5px transparent; } }
+        /* Muro de momentos: la polaroid se endereza y crece al pasar el mouse */
+        .momento-polaroid { transition: transform 0.35s cubic-bezier(0.22,1,0.36,1), box-shadow 0.35s ease; transform-origin: center center; will-change: transform; }
+        .momento-polaroid:hover { transform: rotate(0deg) scale(1.04) !important; box-shadow: ${t.shadowLg}; z-index: 5; }
         .barra-construccion { width: 40%; animation: progresoVaiven 2.4s ease-in-out infinite; }
         @keyframes progresoVaiven {
           0% { margin-left: 0; width: 25%; }

@@ -191,17 +191,50 @@ export const DATOS = {
     },
   ],
 
-  /* GALERÍA — collage de momentos y recuerdos.
-     Coloca tus fotos en public/galeria/ y cambia la ruta `src`.
-     `alto` controla el tamaño en el mosaico: "alto" | "medio" | "bajo".
-     Mientras no tengas las fotos, se usan imágenes de ejemplo. */
+  /* MOMENTOS — muro de momentos como programador y como persona.
+     Mezcla lo profesional (trabajo, eventos, enseñanza) con lo humano.
+
+     Cada momento:
+       titulo    → qué fue
+       lugar     → dónde
+       fecha     → cuándo (texto libre: "2023", "Ene 2025", etc.)
+       categoria → para el filtro de arriba. Una de las claves de
+                   `categoriasMomentos` (ver más abajo):
+                   "trabajo" | "formacion" | "ensenanza" | "voluntariado" | "personal"
+       foto      → ruta a la imagen en public/galeria/ (déjala "" hasta tenerla)
+       alto      → tamaño en el mosaico: "alto" | "medio" | "bajo"
+
+     👉 Para añadir la foto: pon el archivo en public/galeria/ y escribe
+        su ruta en `foto` (ej. foto: "/galeria/kidsapiens-1.jpg"). */
   galeria: [
-    { src: "/galeria/kidsapiens-1.jpg", respaldo: "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=800&q=80", titulo: "Kidsapiens · IA para niños", lugar: "Colegio J. C. Mariátegui · 2023", alto: "alto", gradiente: ["#155E75", "#0E7490"] },
-    { src: "/galeria/antonia-moreno-1.jpg", respaldo: "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=800&q=80", titulo: "Charla de IA", lugar: "Antonia Moreno de Cáceres", alto: "medio", gradiente: ["#7C2D12", "#A16207"] },
-    { src: "/galeria/san-francisco-1.jpg", respaldo: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=800&q=80", titulo: "IA y robótica básica", lugar: "San Francisco College", alto: "medio", gradiente: ["#312E81", "#6D28D9"] },
-    { src: "/galeria/kidsapiens-2.jpg", respaldo: "https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=800&q=80", titulo: "Sesión sabatina", lugar: "Kidsapiens · 2023", alto: "bajo", gradiente: ["#155E75", "#0E7490"] },
-    { src: "/galeria/indra-1.jpg", respaldo: "https://images.unsplash.com/photo-1497032628192-86f99bcd76bc?auto=format&fit=crop&w=800&q=80", titulo: "Transformación digital", lugar: "Indra · Minsait · 2025", alto: "medio", gradiente: ["#0C4A6E", "#0E7490"] },
-    { src: "/galeria/conecta-1.jpg", respaldo: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=800&q=80", titulo: "Conecta Systems", lugar: "Trabajo con clientes", alto: "alto", gradiente: ["#1E3A8A", "#3730A3"] },
+    // 💼 Trabajo
+    { titulo: "Transformación digital", lugar: "Indra · Minsait", fecha: "2025", categoria: "trabajo", foto: "", alto: "medio" },
+    { titulo: "Trabajo con clientes", lugar: "Conecta Systems", fecha: "2024–2025", categoria: "trabajo", foto: "", alto: "alto" },
+
+    // 🎓 Formación / Eventos
+    { titulo: "Ingeniería de Sistemas", lugar: "Universidad", fecha: "En curso", categoria: "formacion", foto: "", alto: "medio" },
+    { titulo: "Evento tecnológico", lugar: "Comunidad tech", fecha: "2025", categoria: "formacion", foto: "", alto: "medio" },
+
+    // 🧑‍🏫 Enseñanza
+    { titulo: "Kidsapiens · IA para niños", lugar: "Colegio J. C. Mariátegui", fecha: "2023", categoria: "ensenanza", foto: "", alto: "alto" },
+    { titulo: "Charla de Inteligencia Artificial", lugar: "Antonia Moreno de Cáceres", fecha: "2023", categoria: "ensenanza", foto: "", alto: "medio" },
+    { titulo: "IA y robótica básica", lugar: "San Francisco College", fecha: "2023", categoria: "ensenanza", foto: "", alto: "medio" },
+
+    // 🤝 Voluntariado
+    { titulo: "Iniciativa comunitaria", lugar: "Por definir", fecha: "—", categoria: "voluntariado", foto: "", alto: "medio" },
+
+    // ✨ Personal
+    { titulo: "Aprendiendo, siempre", lugar: "Detrás del código", fecha: "Hoy", categoria: "personal", foto: "", alto: "medio" },
+  ],
+
+  /* Categorías del muro de Momentos (definen los botones de filtro).
+     id debe coincidir con el campo `categoria` de cada momento de arriba. */
+  categoriasMomentos: [
+    { id: "trabajo", label: "Trabajo" },
+    { id: "formacion", label: "Formación" },
+    { id: "ensenanza", label: "Enseñanza" },
+    { id: "voluntariado", label: "Voluntariado" },
+    { id: "personal", label: "Personal" },
   ],
 
   /* PROYECTOS

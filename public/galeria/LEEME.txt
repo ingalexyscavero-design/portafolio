@@ -1,0 +1,30 @@
+CARPETA DE FOTOS DE "MOMENTOS"
+================================
+
+Aquí van las fotos que se muestran en la sección "Momentos" del portafolio.
+
+CÓMO NOMBRARLAS (por categoría, así queda ordenado):
+  trabajo-xxxxx.jpg        -> 💼 Trabajo (Indra, Conecta, etc.)
+  formacion-xxxxx.jpg      -> 🎓 Formación / Eventos (universidad, eventos tech)
+  ensenanza-xxxxx.jpg      -> 🧑‍🏫 Enseñanza (Kidsapiens, charlas, talleres)
+  voluntariado-xxxxx.jpg   -> 🤝 Voluntariado
+  personal-xxxxx.jpg       -> ✨ Personal
+
+  Ejemplos:
+    trabajo-indra-1.jpg
+    ensenanza-kidsapiens-1.jpg
+    personal-setup-1.jpg
+
+ANTES DE PONERLAS (importante para que la web cargue rápido):
+  - Reducir a ~1200 px de ancho.
+  - Guardar en .jpg (o .webp si puedes).
+  - Que pese menos de ~300 KB cada una.
+  (Si no sabes cómo, deja las fotos aquí tal cual y avísame: yo las optimizo.)
+
+CÓMO SE CONECTAN AL PORTAFOLIO:
+  En src/data/portafolio.js, en cada momento del array "galeria",
+  escribe la ruta en el campo foto, por ejemplo:
+     foto: "/galeria/ensenanza-kidsapiens-1.jpg"
+  (La ruta SIEMPRE empieza con /galeria/  — sin "public".)
+
+Cuando tengas algunas fotos aquí, avísame y las conecto yo.
